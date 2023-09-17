@@ -23,7 +23,7 @@ const RegisterPage = () => {
       console.log(error); // Corrected from 'error' to 'err'
     }
   }
-  if (redirect) return <Navigate to={"/account"} />;
+  if (redirect) return <Navigate to={"/login"} />;
 
   return (
     <div className="mx-auto my-16 max-w-[700px] p-4">
