@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
@@ -9,9 +9,9 @@ import { AuthContextProvider } from "../src/context/AuthContext";
 function App() {
   return (
     <>
-      <h1 className="text-center text-3xl font-bold">
+      <Link className="text-center text-3xl font-bold" to={"/"}>
         Firebase Auth and Context
-      </h1>
+      </Link>
       <AuthContextProvider>
         <Routes>
           <Route index element={<IndexPage />} />
