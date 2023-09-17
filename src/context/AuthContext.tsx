@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   ReactNode,
   useContext,
@@ -9,29 +9,29 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  User as FirebaseUser, // Import User type for clearer typings
+  User as FirebaseUser,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth/cordova";
 
-// Define the User type based on FirebaseUser
 type User = FirebaseUser | null;
 
 type CreateUserFunction = (email: string, password: string) => Promise<void>;
+
+interface AuthContextProps {
+  user: User;
+  createUser: CreateUserFunction;
+  logout: () => Promise<void>;
+  login: (email: string, password: string) => Promise<User | null>;
+}
 
 interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export const UserContext = createContext<
-  | {
-      user: User;
-      createUser: CreateUserFunction;
-      logout: () => Promise<void>;
-      login: () => Promise<void>;
-    }
-  | undefined
->(undefined);
+export const UserContext = createContext<AuthContextProps | undefined>(
+  undefined
+);
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User>(null);
@@ -44,10 +44,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
-  const login = async (
-    email: string,
-    password: string
-  ): Promise<User | null> => {
+  const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
