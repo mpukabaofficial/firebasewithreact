@@ -28,7 +28,7 @@ const RegisterPage = () => {
   return (
     <div className="mx-auto my-16 max-w-[700px] p-4">
       <div>
-        <h1 className="py-2 text-2xl font-bold">Sign in to your account</h1>
+        <h1 className="py-2 text-2xl font-bold">Register an account</h1>
         <p>
           Have an existing account?{" "}
           <Link className="text-blue-500" to={"/login"}>
