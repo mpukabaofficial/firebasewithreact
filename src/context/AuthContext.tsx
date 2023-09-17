@@ -69,6 +69,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         password
       );
       const user = userCredential.user;
+
+      // Store the authenticated user in local storage
+      localStorage.setItem("authenticatedUser", JSON.stringify(user));
+
       return user;
     } catch (error: any) {
       console.error("Error logging in:", error.message);
@@ -80,6 +84,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
+
+    // Check if there's an authenticated user in local storage
+    const storedUser = localStorage.getItem("authenticatedUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
     return () => {
       unsubscribe();
     };
@@ -88,6 +99,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const logout = async () => {
     try {
       await signOut(auth);
+
+      // Remove the authenticated user from local storage on logout
+      localStorage.removeItem("authenticatedUser");
     } catch (error: any) {
       console.error("Error logging out:", error.message);
       throw new Error("Failed to log out");
