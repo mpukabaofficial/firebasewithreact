@@ -3,7 +3,7 @@ import { useUserAuth } from "../context/AuthContext";
 import { FormEvent, useState } from "react";
 
 const LoginPage = () => {
-  const { login } = useUserAuth();
+  const { login, user } = useUserAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,8 +20,7 @@ const LoginPage = () => {
       console.log(error);
     }
   }
-  if (redirect) return <Navigate to={"/"} />;
-
+  if (redirect || !!user) return <Navigate to={"/"} />;
   return (
     <div className="mx-auto my-16 max-w-[700px] p-4">
       <div>

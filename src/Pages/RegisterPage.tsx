@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useUserAuth } from "../context/AuthContext";
 
 const RegisterPage = () => {
+  const { user } = useUserAuth();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,7 @@ const RegisterPage = () => {
     }
   }
   if (redirect) return <Navigate to={"/login"} />;
+  if (!!user) return <Navigate to={"/"} />;
 
   return (
     <div className="mx-auto my-16 max-w-[700px] p-4">

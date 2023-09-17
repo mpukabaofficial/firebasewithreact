@@ -73,6 +73,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       return user;
     } catch (error: any) {
+      alert("Error logging in invalid email/password");
       console.error("Error logging in:", error.message);
       throw new Error("Failed to log in");
     }
