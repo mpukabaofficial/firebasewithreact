@@ -59,8 +59,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
-  const updateUserInfo: CreateUserFunction = async (user: any) => {};
-
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
