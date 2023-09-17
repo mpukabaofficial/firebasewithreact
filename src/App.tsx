@@ -9,7 +9,7 @@ import { AuthContextProvider } from "../src/context/AuthContext";
 function App() {
   return (
     <>
-      <Link className="text-center text-3xl font-bold" to={"/"}>
+      <Link className="block text-center text-3xl font-bold" to={"/"}>
         Firebase Auth and Context
       </Link>
       <AuthContextProvider>
