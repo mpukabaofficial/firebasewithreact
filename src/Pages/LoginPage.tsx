@@ -59,7 +59,7 @@ const LoginPage = () => {
           />
         </div>
         <button className="my-2 w-full border border-blue-500 bg-blue-600 p-4 text-white hover:bg-blue-500">
-          Register
+          Login
         </button>
       </form>
     </div>
