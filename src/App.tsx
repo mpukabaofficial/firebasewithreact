@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Link className="block text-center text-3xl font-bold" to={"/"}>
-        Firebase Auth and Context
+        Authentication App
       </Link>
       <AuthContextProvider>
         <Routes>

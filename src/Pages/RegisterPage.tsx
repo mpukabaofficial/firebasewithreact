@@ -4,6 +4,7 @@ import { useUserAuth } from "../context/AuthContext";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -15,7 +16,7 @@ const RegisterPage = () => {
     event.preventDefault();
     setError("");
     try {
-      await createUser(email, password);
+      await createUser(name, email, password);
       setRedirect(true);
     } catch (err: any) {
       // Use 'err' instead of 'error' here
@@ -40,7 +41,19 @@ const RegisterPage = () => {
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium" htmlFor="email">
             {" "}
-            {/* Add 'htmlFor' */}
+            Name
+          </label>
+          <input
+            onChange={(event) => setName(event.target.value)}
+            className="border p-3"
+            type="name"
+            name="name"
+            id="name"
+          />
+        </div>
+        <div className="flex flex-col py-2">
+          <label className="py-2 font-medium" htmlFor="email">
+            {" "}
             Email Address
           </label>
           <input
@@ -54,7 +67,6 @@ const RegisterPage = () => {
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium" htmlFor="password">
             {" "}
-            {/* Add 'htmlFor' */}
             Password
           </label>
           <input

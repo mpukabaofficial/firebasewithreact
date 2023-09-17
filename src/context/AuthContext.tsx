@@ -9,14 +9,20 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile,
   User as FirebaseUser,
+  Auth,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth/cordova";
 
 type User = FirebaseUser | null;
 
-type CreateUserFunction = (email: string, password: string) => Promise<void>;
+type CreateUserFunction = (
+  name: string,
+  email: string,
+  password: string
+) => Promise<void>;
 
 interface AuthContextProps {
   user: User;
@@ -36,25 +42,35 @@ export const UserContext = createContext<AuthContextProps | undefined>(
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User>(null);
 
-  const createUser: CreateUserFunction = async (email, password) => {
+  const createUser: CreateUserFunction = async (name, email, password) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth as Auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Update user profile with the provided name
+      await updateProfile(user, { displayName: name });
     } catch (error: any) {
-      throw new Error("Failed to create user: " + error.message);
+      console.error("Error creating user:", error.message);
+      throw new Error("Failed to create user");
     }
   };
 
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
-        auth,
+        auth as Auth,
         email,
         password
       );
       const user = userCredential.user;
       return user;
     } catch (error: any) {
-      throw new Error("Failed to log in: " + error.message);
+      console.error("Error logging in:", error.message);
+      throw new Error("Failed to log in");
     }
   };
 
@@ -71,7 +87,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     try {
       await signOut(auth);
     } catch (error: any) {
-      throw new Error("Failed to log out: " + error.message);
+      console.error("Error logging out:", error.message);
+      throw new Error("Failed to log out");
     }
   };
 
