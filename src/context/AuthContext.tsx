@@ -55,6 +55,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       // Update user profile with the provided name
       await updateProfile(user, { displayName: name });
+      setReady(true);
     } catch (error: any) {
       console.error("Error creating user:", error.message);
       throw new Error("Failed to create user");
@@ -84,7 +85,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setReady(true);
     });
 
     // Check if there's an authenticated user in local storage
