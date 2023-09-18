@@ -20,7 +20,7 @@ const AccountPage = () => {
       <p>User email: {user?.email}</p>
       <button
         onClick={handleLogout}
-        className="my-4 border border-blue-500 px-6 py-2 text-blue-500 hover:text-blue-600"
+        className="flex items-center  justify-center rounded-xl bg-black p-4 py-2 text-white hover:bg-gray-800"
       >
         Logout
       </button>

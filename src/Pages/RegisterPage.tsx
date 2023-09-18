@@ -31,10 +31,10 @@ const RegisterPage = () => {
   return (
     <div className="mx-auto my-16 max-w-[700px] p-4">
       <div>
-        <h1 className="py-2 text-2xl font-bold">Register an account</h1>
-        <p>
+        <h1 className="py-2 text-2xl font-bold">Register your account</h1>
+        <p className="text-gray-500">
           Have an existing account?{" "}
-          <Link className="text-blue-500" to={"/login"}>
+          <Link className="text-black underline" to={"/login"}>
             Login
           </Link>
         </p>
@@ -47,7 +47,7 @@ const RegisterPage = () => {
           </label>
           <input
             onChange={(event) => setName(event.target.value)}
-            className="border p-3"
+            className="rounded-xl border p-3"
             type="name"
             name="name"
             id="name"
@@ -60,7 +60,7 @@ const RegisterPage = () => {
           </label>
           <input
             onChange={(event) => setEmail(event.target.value)}
-            className="border p-3"
+            className="rounded-xl border p-3"
             type="email"
             name="email"
             id="email"
@@ -72,14 +72,14 @@ const RegisterPage = () => {
             Password
           </label>
           <input
-            className="border p-3"
+            className="rounded-xl border p-3"
             type="password"
             name="password"
             id="password"
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button className="my-2 w-full border border-blue-500 bg-blue-600 p-4 text-white hover:bg-blue-500">
+        <button className="my-2 w-full rounded-xl border bg-black p-4 text-white hover:bg-gray-800">
           Register
         </button>
       </form>

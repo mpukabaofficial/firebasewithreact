@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useUserAuth } from "../context/AuthContext";
 
 const IndexPage = () => {
@@ -6,11 +5,10 @@ const IndexPage = () => {
   return (
     <div className="flex flex-col p-4">
       <h2 className="text-center text-2xl font-semibold">
-        {!!user ? "Hey " + user.displayName + "!" : "Register to our website"}
+        {!!user
+          ? "Hey " + user.displayName + "!"
+          : "Together we are the future!"}
       </h2>
-      <Link to={"/login"}>Login</Link>
-      <Link to={"/register"}>Register</Link>
-      <Link to={"/account"}>Account</Link>
     </div>
   );
 };

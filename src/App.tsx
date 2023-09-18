@@ -5,19 +5,19 @@ import LoginPage from "./Pages/LoginPage";
 import AccountPage from "./Pages/AccountPage";
 import IndexPage from "./Pages/IndexPage";
 import { AuthContextProvider } from "../src/context/AuthContext";
+import Layout from "./Layout";
 
 function App() {
   return (
     <>
-      <Link className="block text-center text-3xl font-bold" to={"/"}>
-        Authentication App
-      </Link>
       <AuthContextProvider>
         <Routes>
-          <Route index element={<IndexPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/account" element={<AccountPage />} />
+          <Route element={<Layout />}>
+            <Route index element={<IndexPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/account" element={<AccountPage />} />
+          </Route>
         </Routes>
       </AuthContextProvider>
     </>
