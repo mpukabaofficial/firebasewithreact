@@ -29,6 +29,7 @@ interface AuthContextProps {
   createUser: CreateUserFunction;
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<User | null>;
+  ready: boolean;
 }
 
 interface AuthContextProviderProps {
@@ -41,6 +42,7 @@ export const UserContext = createContext<AuthContextProps | undefined>(
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User>(null);
+  const [ready, setReady] = useState(false);
 
   const createUser: CreateUserFunction = async (name, email, password) => {
     try {
@@ -82,6 +84,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setReady(true);
     });
 
     // Check if there's an authenticated user in local storage
@@ -108,7 +111,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, createUser, logout, login }}>
+    <UserContext.Provider value={{ user, createUser, logout, login, ready }}>
       {children}
     </UserContext.Provider>
   );
