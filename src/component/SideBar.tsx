@@ -16,11 +16,14 @@ const SideBar = ({ items }: { items: SideBar[] }) => {
 
   console.log("path " + path);
   return (
-    <div className="my-4 grid">
+    <div className="my-4 flex items-center justify-center md:flex-col">
       {items.map((item, index) => (
         <Link
           to={item.url}
-          className={"px-16 py-4 text-left hover:bg-gray-100" + style(item.url)}
+          className={
+            " px-16 py-4 text-left underline hover:bg-gray-100" +
+            style(item.url)
+          }
           key={index}
         >
           {item.name}
