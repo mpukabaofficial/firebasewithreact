@@ -13,12 +13,11 @@ const UploadArticlesPage = () => {
     authorId: user?.uid || "",
     category: "",
     link: "",
-    name: "",
     picture: "",
     pictureDesc: "",
-    tag: "",
+    tag: [""],
     type: "",
-    articleBody: "",
+    articleBody: [""],
   });
 
   // Categories, types, and tags options can be defined here or fetched from an API
@@ -32,7 +31,7 @@ const UploadArticlesPage = () => {
   ];
   const types = ["Advertisement", "Article"];
 
-  const tags = [
+  const [tags, setTags] = useState<string[]>([
     "Fifth Edition",
     "Fourth Edition",
     "Third Edition",
@@ -42,7 +41,8 @@ const UploadArticlesPage = () => {
     "Spotlight",
     "Politics",
     "Ad",
-  ];
+  ]);
+  const [tag, setTag] = useState("");
 
   if (!user) {
     return <Navigate to="/login" />;
@@ -50,7 +50,6 @@ const UploadArticlesPage = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const paragraphs = article.articleBody.split("\n");
     try {
       await addDocuments(article);
       setArticle({
@@ -60,12 +59,11 @@ const UploadArticlesPage = () => {
         authorId: user?.uid || "",
         category: "",
         link: "",
-        name: "",
         picture: "",
         pictureDesc: "",
-        tag: "",
+        tag: [""],
         type: "",
-        articleBody: "",
+        articleBody: [""],
       });
       console.log("Article submitted:", article);
     } catch (error) {
@@ -81,6 +79,38 @@ const UploadArticlesPage = () => {
       ...prevArticle,
       [name]: value,
     }));
+  };
+
+  const handleBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const paragraphs = e.target.value.split("\n\n");
+    setArticle((prevArticle) => ({
+      ...prevArticle,
+      articleBody: paragraphs,
+    }));
+  };
+
+  const handleTagChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setArticle((prevArticle) => {
+      // Add or remove the value from the tag array
+      const newTags = checked
+        ? [...prevArticle.tag, value]
+        : prevArticle.tag.filter((t) => t !== value);
+
+      return {
+        ...prevArticle,
+        tag: newTags,
+      };
+    });
+  };
+
+  const handleAddTag = () => {
+    if (tag === "") return;
+
+    if (tag && !tags.includes(tag)) {
+      setTags([...tags, tag]); // Add the new tag to the tags array
+      setTag(""); // Clear the input field
+    }
   };
 
   return (
@@ -120,7 +150,7 @@ const UploadArticlesPage = () => {
       <textarea
         name="articleBody"
         value={article.articleBody}
-        onChange={handleChange}
+        onChange={handleBodyChange}
         placeholder="Article Body"
         className="h-[20vh] border p-2"
       />
@@ -155,20 +185,40 @@ const UploadArticlesPage = () => {
         ))}
       </select>
 
-      {/* Select for 'tag' */}
-      <select
-        name="tag"
-        value={article.tag}
-        onChange={handleChange}
-        className="border p-2"
-      >
-        <option value="">Select Tag</option>
-        {tags.map((tag) => (
-          <option key={tag} value={tag}>
-            {tag}
-          </option>
+      {/* Checkboxes for selecting tags */}
+      <fieldset className="">
+        <legend>Select Tags</legend>
+        {tags.map((tag, index) => (
+          <label key={index} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              name="tag"
+              value={tag}
+              checked={article.tag.includes(tag)}
+              onChange={handleTagChange}
+            />
+            <span>{tag}</span>
+          </label>
         ))}
-      </select>
+      </fieldset>
+
+      {/* Input for adding a new tag */}
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          placeholder="Add a tag"
+          className="border p-2"
+          onChange={(e) => setTag(e.target.value)}
+          value={tag}
+        />
+        <button
+          type="button"
+          onClick={handleAddTag}
+          className="min-w-[100px] rounded-xl border border-black py-4 hover:bg-gray-100"
+        >
+          Add tag
+        </button>
+      </div>
 
       <button
         type="submit"

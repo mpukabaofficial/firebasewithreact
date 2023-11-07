@@ -6,13 +6,14 @@ import { getFirestore } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Use environment variables to secure your Firebase configuration
+const prefix = import.meta.env;
 const firebaseConfig = {
-  apiKey: "AIzaSyCVOayc3zLim7tAZadevFgsYR4IBIbbCp4", // Replace with your environment variable
-  authDomain: "fir-with-react-8250c.firebaseapp.com", // Replace with your environment variable
-  projectId: "fir-with-react-8250c", // Replace with your environment variable
-  storageBucket: "fir-with-react-8250c.appspot.com", // Replace with your environment variable
-  messagingSenderId: "290977647242", // Replace with your environment variable
-  appId: "1:290977647242:web:0769e7cee90c4b0ed3fb73", // Replace with your environment variable
+  apiKey: prefix.VITE_APP_API_KEY,
+  authDomain: prefix.VITE_APP_AUTH_DOMAIN,
+  projectId: prefix.VITE_APP_PROJECT_ID,
+  storageBucket: prefix.VITE_APP_STORAGE_BUCKET,
+  messagingSenderId: prefix.VITE_APP_MESSAGING_SENDER_ID,
+  appId: prefix.VITE_APP_APP_ID,
 };
 
 // Initialize Firebase

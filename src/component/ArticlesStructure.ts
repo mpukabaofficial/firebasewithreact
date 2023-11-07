@@ -6,10 +6,9 @@ export interface Articles {
   authorId: string | null | undefined;
   category: string;
   link: string;
-  name: string;
   picture: string;
   pictureDesc: string;
-  tag: string;
+  tag: string[];
   type: string;
-  articleBody: string;
+  articleBody: string[];
 }
