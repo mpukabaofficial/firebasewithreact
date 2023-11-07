@@ -10,12 +10,12 @@ const ArticlesPage = () => {
         docsArray.map((theDoc, index) => (
           <Link
             key={index}
-            className="flex min-h-[200px] flex-col items-center overflow-hidden rounded-lg border border-gray-200 bg-white object-cover shadow hover:bg-gray-100 sm:h-[20vh] sm:max-w-xl sm:flex-row lg:min-w-[800px]"
+            className="flex min-h-[200px] flex-col items-center overflow-hidden rounded-lg border border-gray-200 bg-white object-cover shadow hover:bg-gray-100 lg:h-[20vh] lg:min-w-[800px] lg:max-w-xl lg:flex-row"
             to={"/article/" + theDoc.id}
           >
             <div className="flex aspect-video w-full overflow-hidden">
               <img
-                className="h-full w-full rounded-t-lg object-cover sm:w-48"
+                className="h-full w-full rounded-t-lg object-cover lg:w-48"
                 src={theDoc.picture}
                 alt={theDoc.pictureDesc}
               />
