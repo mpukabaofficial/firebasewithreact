@@ -14,7 +14,7 @@ const Layout = () => {
   return (
     <div className="">
       <Header />
-      <div className="md:flex">
+      <div className="sm:flex">
         <div>
           <SideBar items={sidebarList} />
         </div>

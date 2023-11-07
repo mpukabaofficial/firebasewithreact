@@ -16,7 +16,7 @@ const SideBar = ({ items }: { items: SideBar[] }) => {
 
   console.log("path " + path);
   return (
-    <div className="my-4 flex items-center justify-center md:flex-col">
+    <div className="my-4 flex items-center justify-center sm:flex-col">
       {items.map((item, index) => (
         <Link
           to={item.url}
