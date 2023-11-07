@@ -6,6 +6,8 @@ import AccountPage from "./Pages/AccountPage";
 import IndexPage from "./Pages/IndexPage";
 import { AuthContextProvider } from "../src/context/AuthContext";
 import Layout from "./Layout";
+import ArticlesPage from "./Pages/ArticlesPage";
+import UploadArticlesPage from "./Pages/UploadArticlesPage";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/upload" element={<UploadArticlesPage />} />
           </Route>
         </Routes>
       </AuthContextProvider>

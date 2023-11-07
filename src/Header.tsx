@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 shadow-md">
+    <div className="z-10 flex items-center justify-between p-4 shadow-md">
       <Link className="font-sans text-3xl font-bold" to={"/"}>
         The Spark
       </Link>
