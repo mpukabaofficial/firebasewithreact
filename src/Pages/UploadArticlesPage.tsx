@@ -12,15 +12,20 @@ const UploadArticlesPage = () => {
     authorEmail: user?.email || "",
     authorId: user?.uid || "",
     category: "",
-    link: "",
+    facebook: "",
+    instagram: "",
+    WhatsApp: "",
+    Twitter: "",
+    Number: "",
+    Website: "",
     picture: "",
     pictureDesc: "",
     tag: [""],
     type: "",
-    articleBody: [""],
+    articleBody: [],
   });
 
-  // Categories, types, and tags options can be defined here or fetched from an API
+  // these are the current categories, tags and types
   const categories = [
     "themed",
     "cover",
@@ -48,6 +53,7 @@ const UploadArticlesPage = () => {
     return <Navigate to="/login" />;
   }
 
+  // when form is submitted, it uses the addDocuments(defined in firestore.ts) and then resets the article
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -58,12 +64,17 @@ const UploadArticlesPage = () => {
         authorEmail: user?.email || "",
         authorId: user?.uid || "",
         category: "",
-        link: "",
+        facebook: "",
+        instagram: "",
+        WhatsApp: "",
+        Twitter: "",
+        Number: "",
+        Website: "",
         picture: "",
         pictureDesc: "",
         tag: [""],
         type: "",
-        articleBody: [""],
+        articleBody: [],
       });
       console.log("Article submitted:", article);
     } catch (error) {
@@ -214,7 +225,7 @@ const UploadArticlesPage = () => {
         <button
           type="button"
           onClick={handleAddTag}
-          className="min-w-[100px] rounded-xl border border-black py-4 hover:bg-gray-100"
+          className="flex min-w-fit justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Add tag
         </button>

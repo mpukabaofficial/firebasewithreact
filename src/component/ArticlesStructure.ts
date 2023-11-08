@@ -5,7 +5,12 @@ export interface Articles {
   authorEmail: string | null | undefined;
   authorId: string | null | undefined;
   category: string;
-  link: string;
+  facebook: string;
+  instagram: string;
+  WhatsApp: string;
+  Twitter: string;
+  Number: string;
+  Website: string;
   picture: string;
   pictureDesc: string;
   tag: string[];

@@ -9,6 +9,7 @@ import Layout from "./Layout";
 import ArticlesPage from "./Pages/ArticlesPage";
 import UploadArticlesPage from "./Pages/UploadArticlesPage";
 import ArticlePage from "./Pages/ArticlePage";
+import TeamPage from "./Pages/TeamPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/article/:id" element={<ArticlePage />} />
             <Route path="/upload" element={<UploadArticlesPage />} />
+            <Route path="/team" element={<TeamPage />} />
           </Route>
         </Routes>
       </AuthContextProvider>
