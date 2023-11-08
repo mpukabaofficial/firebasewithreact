@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import SideBar from "./component/SideBar";
-import { useState } from "react";
 type sidebar = {
   name: string;
   url: string;
