@@ -10,7 +10,7 @@ const IndexSideBar = ({ items }: { items: sidebar[] }) => {
     return classes;
   };
   return (
-    <div className="right fixed bottom-0 left-0 right-0 flex w-full justify-center gap-6 border-r-gray-200 p-2 md:w-60 md:flex-col md:border-r">
+    <div className="right fixed bottom-0 left-0 right-0 flex w-full justify-center gap-6 p-2  md:relative md:w-60 md:flex-col md:gap-2 ">
       {items.map((item) => (
         <Link
           to={item.url}
@@ -20,7 +20,7 @@ const IndexSideBar = ({ items }: { items: sidebar[] }) => {
           }
         >
           <span>{item.icon} </span>
-          <span className="hidden">{item.name}</span>
+          <span className="hidden md:block">{item.name}</span>
         </Link>
       ))}
     </div>

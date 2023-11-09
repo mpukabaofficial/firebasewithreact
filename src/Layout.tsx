@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import SideBar from "./component/SideBar";
 import { sidebar } from "./component/SideBarList";
+import Footer from "./Footer";
 const Layout = () => {
   const sidebarList: sidebar[] = [
     {
@@ -30,7 +31,7 @@ const Layout = () => {
   ];
 
   return (
-    <div className="dark:bg-grey-800 ">
+    <div className="">
       <Header />
       <div className="flex flex-col">
         <div>
@@ -40,6 +41,7 @@ const Layout = () => {
           <Outlet />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

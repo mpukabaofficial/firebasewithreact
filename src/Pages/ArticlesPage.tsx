@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Articles } from "../component/ArticlesStructure";
-import { useFirestoreDocs } from "../firestore";
+import { useFirestoreDocs } from "../api/firestore";
 
 const ArticlesPage = () => {
   const docsArray: Articles[] = useFirestoreDocs();

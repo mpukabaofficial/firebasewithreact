@@ -103,7 +103,7 @@ const IndexPage = () => {
         <div>
           <IndexSideBar items={sidebar} />
         </div>
-        <div>
+        <div className="md:border-l md:p-2">
           <Outlet />
         </div>
       </div>

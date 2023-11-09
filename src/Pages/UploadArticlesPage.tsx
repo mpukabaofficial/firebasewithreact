@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { addDocuments } from "../firestore";
+import { addDocuments } from "../api/firestore";
 import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";

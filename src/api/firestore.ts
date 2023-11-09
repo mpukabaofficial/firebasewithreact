@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { Articles } from "./component/ArticlesStructure";
+import { Articles } from "../component/ArticlesStructure";
 
 // collection ref
 const colRef = collection(db, "articles");
