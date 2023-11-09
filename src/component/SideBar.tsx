@@ -1,18 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
+import { sidebar } from "./SideBarList";
 
-interface SideBar {
-  name: string;
-  url: string;
-}
-
-const SideBar = ({ items }: { items: SideBar[] }) => {
+const SideBar = ({ items }: { items: sidebar[] }) => {
   const path = useLocation().pathname;
 
-  const style = (url: string): string => {
+  const style = (url: string[]): string => {
     let classes = "";
-    if (path === url) classes = " text-blue-500 border-b border-b-blue-500 ";
+    if (url.includes(path))
+      classes = " text-blue-500 border-b border-b-blue-500 ";
     return classes;
   };
+
+  const home = ["/projects", "/tasks", "/analytics"];
 
   console.log("path " + path);
   return (
@@ -21,12 +20,12 @@ const SideBar = ({ items }: { items: SideBar[] }) => {
         <Link
           to={item.url}
           className={
-            "px-4 py-2 text-left transition-all hover:text-gray-400 " +
-            style(item.url)
+            "px-4 py-2 text-left font-semibold transition-all duration-300 ease-in-out hover:text-gray-400" +
+            style(item.url === "/" ? [...home, "/"] : [item.url])
           }
           key={index}
         >
-          {item.name}
+          {item.name !== "" ? item.name : item.icon}
         </Link>
       ))}
     </div>

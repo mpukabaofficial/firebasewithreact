@@ -10,14 +10,23 @@ import ArticlesPage from "./Pages/ArticlesPage";
 import UploadArticlesPage from "./Pages/UploadArticlesPage";
 import ArticlePage from "./Pages/ArticlePage";
 import TeamPage from "./Pages/TeamPage";
+import OverviewPage from "./Pages/IndexPages/OverviewPage";
+import ProjectPage from "./Pages/IndexPages/ProjectPage";
+import TasksPage from "./Pages/IndexPages/TasksPage";
+import AnalyticsPage from "./Pages/IndexPages/AnalyticsPage";
 
 function App() {
   return (
     <>
       <AuthContextProvider>
         <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<IndexPage />} />
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<IndexPage />}>
+              <Route path="/" element={<OverviewPage />} />
+              <Route path="/projects" element={<ProjectPage />} />
+              <Route path="/tasks" element={<TasksPage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
+            </Route>
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/account" element={<AccountPage />} />
