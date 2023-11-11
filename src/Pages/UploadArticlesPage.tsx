@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { addDocuments } from "../api/firestore";
+import { addDocuments } from "../api/articles";
 import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";
@@ -76,7 +76,8 @@ const UploadArticlesPage = () => {
         type: "",
         articleBody: [],
       });
-      console.log("Article submitted:", article);
+
+      return <Navigate to={"/articles"} />;
     } catch (error) {
       console.error("Error adding document:", error);
     }

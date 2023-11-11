@@ -25,7 +25,7 @@ export const useFirestoreDocs = () => {
     };
 
     fetchDocs();
-  }, []);
+  }, [docsArray]);
 
   return docsArray;
 };

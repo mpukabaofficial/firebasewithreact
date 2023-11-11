@@ -1,9 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import SideBar from "./component/SideBar";
 import { sidebar } from "./component/SideBarList";
 import Footer from "./Footer";
 const Layout = () => {
+  const location = useLocation().pathname.split("/");
   const sidebarList: sidebar[] = [
     {
       name: "",
@@ -41,7 +42,7 @@ const Layout = () => {
           <Outlet />
         </div>
       </div>
-      <Footer />
+      {location.includes("account") && <Footer />}
     </div>
   );
 };

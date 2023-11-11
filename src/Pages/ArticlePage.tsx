@@ -1,5 +1,5 @@
 import { Articles } from "../component/ArticlesStructure";
-import { useFirestoreDocs } from "../api/firestore";
+import { useFirestoreDocs } from "../api/articles";
 import { useLocation } from "react-router-dom";
 
 const ArticlePage = () => {
