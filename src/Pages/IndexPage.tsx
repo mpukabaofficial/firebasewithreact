@@ -1,10 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import IndexSideBar from "../component/IndexPage/IndexSideBar";
 import { sidebar } from "../component/SideBarList";
 import { useUserAuth } from "../context/AuthContext";
 
 const IndexPage = () => {
   const { user } = useUserAuth();
+  if (!user) {
+    return <Navigate to={""} />;
+  }
   const sidebar: sidebar[] = [
     {
       name: "overview",
@@ -96,7 +99,7 @@ const IndexPage = () => {
     <div className="mx-auto flex max-w-screen-xl flex-col p-4">
       <h2 className="text-center text-2xl font-semibold">
         {!!user && user.displayName !== null
-          ? "Hey " + user.displayName + "!"
+          ? "Hey " + user.displayName.trim() + "!"
           : "Together we are the future!"}
       </h2>
       <div className="my-4 flex flex-col gap-8 md:flex-row">

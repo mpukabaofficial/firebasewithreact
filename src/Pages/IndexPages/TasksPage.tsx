@@ -1,17 +1,12 @@
 import { useState } from "react";
 import TaskForm from "../../component/TaskPage/TaskForm";
 import { addTask, getTasks } from "../../api/tasks";
-import { Timestamp } from "firebase/firestore";
-
-interface Task {
-  name: string;
-  status: boolean;
-  assigned: Timestamp;
-  dueDate: Timestamp;
-  description: string;
-}
+import { Task } from "../../component/IndexPage/Task";
+import { useUserAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const TasksPage = () => {
+  const { user } = useUserAuth();
   const [formStatus, setFormStatus] = useState(false);
 
   const handleFormData = async (newTask: Task) => {
@@ -76,10 +71,12 @@ const TasksPage = () => {
           <div className="my-8 flex flex-col gap-2">
             {taskList.map(
               (aTask, index) =>
-                !aTask.status && (
-                  <div
+                !aTask.status &&
+                aTask.owner === user?.uid && (
+                  <Link
                     key={index}
                     className="flex w-full items-center justify-between gap-16  rounded-md  border  px-4 py-2"
+                    to={"/tasks/" + aTask.id}
                   >
                     <span className="flex items-center text-sm">
                       {aTask.name}{" "}
@@ -97,7 +94,7 @@ const TasksPage = () => {
                         {formatDateString(aTask.dueDate.toDate().toString())}
                       </span>
                     </span>
-                  </div>
+                  </Link>
                 )
             )}
           </div>

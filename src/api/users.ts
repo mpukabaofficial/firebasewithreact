@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
-import { Task } from "../component/IndexPage/Task";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { User } from "../component/User";
+import { Articles } from "../component/ArticlesStructure";
 
-// collection ref
-const colRef = collection(db, "tasks");
-
-export const getTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+const colRef = collection(db, "users");
+// Custom hook
+export const useUsers = () => {
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchDocs = async () => {
@@ -15,9 +15,9 @@ export const getTasks = () => {
         const snapshot = await getDocs(colRef);
         const results = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...(doc.data() as Omit<Task, "id">),
+          ...(doc.data() as Omit<User, "id">),
         }));
-        setTasks(results);
+        setUsers(results);
       } catch (error) {
         console.error("Error fetching documents:", error);
       }
@@ -26,9 +26,9 @@ export const getTasks = () => {
     fetchDocs();
   }, []);
 
-  return tasks;
+  return users;
 };
 
-export const addTask = async (task: Task) => {
+export const addTask = async (task: Articles) => {
   await addDoc(colRef, task);
 };

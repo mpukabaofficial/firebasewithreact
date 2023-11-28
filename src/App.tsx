@@ -14,6 +14,7 @@ import OverviewPage from "./Pages/IndexPages/OverviewPage";
 import ProjectPage from "./Pages/IndexPages/ProjectPage";
 import TasksPage from "./Pages/IndexPages/TasksPage";
 import AnalyticsPage from "./Pages/IndexPages/AnalyticsPage";
+import TaskPage from "./Pages/IndexPages/TaskPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<OverviewPage />} />
               <Route path="/projects" element={<ProjectPage />} />
               <Route path="/tasks" element={<TasksPage />} />
+              <Route path="/tasks/:id" element={<TaskPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
             </Route>
             <Route path="/register" element={<RegisterPage />} />

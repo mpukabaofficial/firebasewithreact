@@ -85,18 +85,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (!currentUser === !ready) setReady(!!currentUser);
     });
-
-    // Check if there's an authenticated user in local storage
-    const storedUser = localStorage.getItem("authenticatedUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [ready]);
 
   const logout = async () => {
     try {

@@ -14,3 +14,9 @@ option {
 input[type="checkbox"] {
   @apply h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500;
 }
+.social-links img {
+  @apply h-6 w-6 text-gray-700;
+}
+.social-links a {
+  @apply rounded-full p-2 hover:bg-gray-200;
+}

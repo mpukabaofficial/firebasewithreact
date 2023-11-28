@@ -1,26 +1,22 @@
 import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
-
-interface Task {
-  name: string;
-  status: boolean;
-  assigned: Timestamp;
-  dueDate: Timestamp;
-  description: string;
-}
+import { Task } from "../IndexPage/Task";
+import { useUserAuth } from "../../context/AuthContext";
 
 interface Props {
-  onSubmition: (newTask: Task) => void;
+  onSubmition: (newTask: Task) => Promise<void>;
   onClick: (e: boolean) => void;
 }
 
 const TaskForm = ({ onSubmition, onClick }: Props) => {
+  const { user } = useUserAuth();
   const [task, setTask] = useState<Task>({
     name: "",
     status: false,
     assigned: Timestamp.now(),
     dueDate: Timestamp.now(),
     description: "",
+    owner: user?.uid ?? "",
   });
   const [date, setDate] = useState(
     new Date().toLocaleString("default", {
@@ -126,3 +122,6 @@ const TaskForm = ({ onSubmition, onClick }: Props) => {
 };
 
 export default TaskForm;
+function useAuth(): { user: any } {
+  throw new Error("Function not implemented.");
+}
