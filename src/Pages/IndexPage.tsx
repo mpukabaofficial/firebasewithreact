@@ -6,7 +6,7 @@ import { useUserAuth } from "../context/AuthContext";
 const IndexPage = () => {
   const { user } = useUserAuth();
   if (!user) {
-    return <Navigate to={""} />;
+    return <Navigate to={"/login"} />;
   }
   const sidebar: sidebar[] = [
     {
