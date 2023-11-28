@@ -122,6 +122,3 @@ const TaskForm = ({ onSubmition, onClick }: Props) => {
 };
 
 export default TaskForm;
-function useAuth(): { user: any } {
-  throw new Error("Function not implemented.");
-}
