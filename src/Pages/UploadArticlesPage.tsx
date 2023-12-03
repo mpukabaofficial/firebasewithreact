@@ -3,7 +3,6 @@ import { addDocuments } from "../api/articles";
 import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";
-import { times } from "lodash";
 import { Timestamp } from "firebase/firestore";
 
 const UploadArticlesPage = () => {

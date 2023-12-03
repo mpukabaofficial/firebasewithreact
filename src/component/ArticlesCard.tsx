@@ -1,4 +1,3 @@
-import React from "react";
 import { Articles } from "./ArticlesStructure";
 import { Link } from "react-router-dom";
 
