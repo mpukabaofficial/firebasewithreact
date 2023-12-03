@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Articles {
   id?: string; // Included the id in the interface
   articleInfo: string;
@@ -16,4 +18,5 @@ export interface Articles {
   tag: string[];
   type: string;
   articleBody: string[];
+  date: Timestamp;
 }

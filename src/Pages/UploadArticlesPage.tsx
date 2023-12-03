@@ -3,6 +3,8 @@ import { addDocuments } from "../api/articles";
 import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";
+import { times } from "lodash";
+import { Timestamp } from "firebase/firestore";
 
 const UploadArticlesPage = () => {
   const { user } = useUserAuth();
@@ -23,6 +25,7 @@ const UploadArticlesPage = () => {
     tag: [""],
     type: "",
     articleBody: [],
+    date: Timestamp.now(),
   });
 
   // these are the current categories, tags and types
@@ -75,6 +78,7 @@ const UploadArticlesPage = () => {
         tag: [""],
         type: "",
         articleBody: [],
+        date: Timestamp.now(),
       });
 
       return <Navigate to={"/articles"} />;
@@ -133,7 +137,14 @@ const UploadArticlesPage = () => {
       {/* Render inputs for all keys except for 'authorId', 'category', 'type', 'tag', and 'articleBody' */}
       {Object.keys(article).map((key) => {
         if (
-          ["authorId", "category", "type", "tag", "articleBody"].includes(key)
+          [
+            "authorId",
+            "category",
+            "type",
+            "tag",
+            "articleBody",
+            "date",
+          ].includes(key)
         ) {
           return null; // These are handled separately
         }
