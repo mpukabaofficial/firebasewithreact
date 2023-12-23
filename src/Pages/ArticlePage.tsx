@@ -10,8 +10,10 @@ import whatsapp from "../assets/social icons/whatsapp.svg";
 import website from "../assets/social icons/globe-solid.svg";
 import { useState } from "react";
 import Tags from "../component/Articles/Tags";
+import { useUserAuth } from "../context/AuthContext";
 
 const ArticlePage = () => {
+  const { user } = useUserAuth();
   const [deleted, setDeleted] = useState(false);
   const path = useLocation().pathname;
 
@@ -71,6 +73,9 @@ const ArticlePage = () => {
     return <div>Loading...</div>; // Example fallback UI
   }
 
+  if (!user) {
+    return <Navigate to={"/login"} />;
+  }
   // Make sure the article and articleBody exist before trying to map over it
   return (
     <article className="mx-auto max-w-[1024px]">

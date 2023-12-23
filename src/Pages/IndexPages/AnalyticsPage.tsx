@@ -2,8 +2,8 @@ import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../../context/AuthContext";
 
 const AnalyticsPage = () => {
-  const { user, ready } = useUserAuth();
-  if (!user && ready) {
+  const { user } = useUserAuth();
+  if (!user) {
     return <Navigate to={"/login"} />;
   }
   return (

@@ -2,9 +2,9 @@ import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../../context/AuthContext";
 
 const OverviewPage = () => {
-  const { user, ready } = useUserAuth();
+  const { user } = useUserAuth();
 
-  if (!user && ready) {
+  if (!user) {
     return <Navigate to="/login" />;
   }
 

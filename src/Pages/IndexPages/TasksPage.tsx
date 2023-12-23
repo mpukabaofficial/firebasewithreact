@@ -6,7 +6,7 @@ import { useUserAuth } from "../../context/AuthContext";
 import { Link, Navigate } from "react-router-dom";
 
 const TasksPage = () => {
-  const { user, ready } = useUserAuth();
+  const { user } = useUserAuth();
   const [formStatus, setFormStatus] = useState(false);
 
   const handleFormData = async (newTask: Task) => {
@@ -44,7 +44,7 @@ const TasksPage = () => {
     }
   }
 
-  if (!user && ready) {
+  if (!user) {
     return <Navigate to={"/login"} />;
   }
 
