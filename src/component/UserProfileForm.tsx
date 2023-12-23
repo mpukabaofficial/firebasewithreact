@@ -1,6 +1,3 @@
-import { User } from "firebase/auth";
-import { useState } from "react";
-
 interface Props {
   username: string | null | undefined;
   email: string | null | undefined;
