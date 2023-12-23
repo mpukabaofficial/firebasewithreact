@@ -16,6 +16,7 @@ import TasksPage from "./Pages/IndexPages/TasksPage";
 import AnalyticsPage from "./Pages/IndexPages/AnalyticsPage";
 import TaskPage from "./Pages/IndexPages/TaskPage";
 import AuthorPage from "./Pages/AuthorPage";
+import TagsPage from "./Pages/TagsPage";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/upload" element={<UploadArticlesPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/author/:id" element={<AuthorPage />} />
+            <Route path="/tags/:id" element={<TagsPage />} />
           </Route>
         </Routes>
       </AuthContextProvider>

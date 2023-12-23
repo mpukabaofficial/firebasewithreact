@@ -15,7 +15,7 @@ export interface Articles {
   Website: string;
   picture: string;
   pictureDesc: string;
-  tag: string[];
+  tags: string[];
   type: string;
   articleBody: string[];
   date: Timestamp;

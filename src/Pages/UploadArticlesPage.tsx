@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { addDocuments } from "../api/articles";
+import { addArticle } from "../api/articles";
 import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";
@@ -21,11 +21,12 @@ const UploadArticlesPage = () => {
     Website: "",
     picture: "",
     pictureDesc: "",
-    tag: [""],
+    tags: [""],
     type: "",
     articleBody: [],
     date: Timestamp.now(),
   });
+  const [uploaded, setUploaded] = useState(false);
 
   // these are the current categories, tags and types
   const categories = [
@@ -59,7 +60,7 @@ const UploadArticlesPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await addDocuments(article);
+      await addArticle(article);
       setArticle({
         articleInfo: "",
         author: user?.displayName || "",
@@ -74,13 +75,12 @@ const UploadArticlesPage = () => {
         Website: "",
         picture: "",
         pictureDesc: "",
-        tag: [""],
+        tags: [],
         type: "",
         articleBody: [],
         date: Timestamp.now(),
       });
-
-      return <Navigate to={"/articles"} />;
+      setUploaded(true);
     } catch (error) {
       console.error("Error adding document:", error);
     }
@@ -109,12 +109,12 @@ const UploadArticlesPage = () => {
     setArticle((prevArticle) => {
       // Add or remove the value from the tag array
       const newTags = checked
-        ? [...prevArticle.tag, value]
-        : prevArticle.tag.filter((t) => t !== value);
+        ? [...prevArticle.tags, value]
+        : prevArticle.tags.filter((t) => t !== value);
 
       return {
         ...prevArticle,
-        tag: newTags,
+        tags: newTags,
       };
     });
   };
@@ -128,6 +128,10 @@ const UploadArticlesPage = () => {
     }
   };
 
+  if (uploaded) {
+    return <Navigate to="/articles" />;
+  }
+
   return (
     <form
       className="m-auto flex max-w-screen-md flex-col gap-4"
@@ -140,7 +144,7 @@ const UploadArticlesPage = () => {
             "authorId",
             "category",
             "type",
-            "tag",
+            "tags",
             "articleBody",
             "date",
           ].includes(key)
@@ -174,7 +178,7 @@ const UploadArticlesPage = () => {
         value={article.articleBody}
         onChange={handleBodyChange}
         placeholder="Article Body"
-        className="h-[20vh] border p-2"
+        className="max-h-fit min-h-[20vh] border p-2"
       />
 
       {/* Select for 'category' */}
@@ -216,7 +220,7 @@ const UploadArticlesPage = () => {
               type="checkbox"
               name="tag"
               value={tag}
-              checked={article.tag.includes(tag)}
+              checked={article.tags.includes(tag)}
               onChange={handleTagChange}
             />
             <span>{tag}</span>

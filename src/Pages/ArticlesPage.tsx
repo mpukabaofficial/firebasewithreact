@@ -1,9 +1,9 @@
 import { Articles } from "../component/ArticlesStructure";
-import { useFirestoreDocs } from "../api/articles";
+import { getDocuments } from "../api/articles";
 import ArticlesCard from "../component/ArticlesCard";
 
 const ArticlesPage = () => {
-  const docsArray: Articles[] = useFirestoreDocs();
+  const docsArray: Articles[] = getDocuments();
   return <ArticlesCard articles={docsArray} url={"/article"} />;
 };
 

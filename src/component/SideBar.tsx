@@ -12,8 +12,6 @@ const SideBar = ({ items }: { items: sidebar[] }) => {
   };
 
   const home = ["/projects", "/tasks", "/analytics"];
-
-  console.log("path " + path);
   return (
     <div className="my-4 flex items-center justify-center">
       {items.map((item, index) => (

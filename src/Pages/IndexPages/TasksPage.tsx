@@ -70,30 +70,33 @@ const TasksPage = () => {
           </button>
           <div className="my-8 flex flex-col gap-2">
             {taskList.map(
-              (aTask, index) =>
+              (aTask) =>
                 !aTask.status &&
                 aTask.owner === user?.uid && (
                   <Link
-                    key={index}
+                    key={aTask.id}
                     className="flex w-full items-center justify-between gap-16  rounded-md  border  px-4 py-2"
                     to={"/tasks/" + aTask.id}
                   >
                     <span className="flex items-center text-sm">
                       {aTask.name}{" "}
                     </span>
-                    <span className="text-xs">
-                      <span
-                        className={
-                          formatDateString(aTask.dueDate.toDate().toString())
-                            .split(" ")
-                            .includes("Overdue")
-                            ? "text-red-500"
-                            : "text-green-500"
-                        }
-                      >
-                        {formatDateString(aTask.dueDate.toDate().toString())}
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs">
+                        <span
+                          className={
+                            formatDateString(aTask.dueDate.toDate().toString())
+                              .split(" ")
+                              .includes("Overdue")
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }
+                        >
+                          {formatDateString(aTask.dueDate.toDate().toString())}
+                        </span>
                       </span>
-                    </span>
+                    </div>
                   </Link>
                 )
             )}

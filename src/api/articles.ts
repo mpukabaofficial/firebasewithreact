@@ -1,35 +1,13 @@
-import { useEffect, useState } from "react";
-import { db } from "./firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
 import { Articles } from "../component/ArticlesStructure";
+import Documents from "./Documents";
 
-// collection ref
-const colRef = collection(db, "articles");
+const documents = new Documents<Articles>("articles");
 
-export const useFirestoreDocs = () => {
-  const [docsArray, setDocsArray] = useState<Articles[]>([]);
+export function getDocuments(): Articles[] {
+  return documents.getDocuments();
+}
 
-  useEffect(() => {
-    const fetchDocs = async () => {
-      try {
-        const snapshot = await getDocs(colRef);
+export const addArticle = (articles: Articles) =>
+  documents.addDocument(articles);
 
-        const docs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Articles, "id">), // Cast the doc data to the rest of the Articles fields
-        }));
-        setDocsArray(docs);
-      } catch (error) {
-        console.error("Error fetching documents:", error);
-      }
-    };
-
-    fetchDocs();
-  }, []);
-
-  return docsArray;
-};
-
-export const addDocuments = async (article: Articles) => {
-  await addDoc(colRef, article);
-};
+export const deleteDocuments = (id: string) => documents.deleteDocument(id);

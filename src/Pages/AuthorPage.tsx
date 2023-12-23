@@ -1,10 +1,10 @@
-import { useFirestoreDocs } from "../api/articles";
+import { getDocuments } from "../api/articles";
 import { Articles } from "../component/ArticlesStructure";
 import { useLocation } from "react-router-dom";
 import ArticlesCard from "../component/ArticlesCard";
 
 const AuthorPage = () => {
-  const docsArray: Articles[] = useFirestoreDocs();
+  const docsArray: Articles[] = getDocuments();
   const location = useLocation().pathname.split("/");
 
   const findArticles = () => {

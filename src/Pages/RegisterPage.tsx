@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+
 import { useUserAuth } from "../context/AuthContext";
 
 const RegisterPage = () => {
@@ -7,22 +8,24 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const { createUser } = useUserAuth();
+
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
     try {
       await createUser(name, email, password);
+      setRedirect(true);
     } catch (err: any) {
-      // Use 'err' instead of 'error' here
-      setError(err.message);
-      console.log(error); // Corrected from 'error' to 'err'
+      alert(err.message); // Corrected from 'error' to 'err'
     }
   }
-  if (!!user && ready) return <Navigate to={"/"} />;
+
+  if ((!!user && ready) || redirect) return <Navigate to={"/"} />;
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

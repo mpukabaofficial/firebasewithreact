@@ -1,6 +1,6 @@
 import { Articles } from "../component/ArticlesStructure";
-import { useFirestoreDocs } from "../api/articles";
-import { Link, useLocation } from "react-router-dom";
+import { deleteDocuments, getDocuments } from "../api/articles";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import facebook from "../assets/social icons/facebook.svg";
 import instagram from "../assets/social icons/instagram.svg";
 import twitter from "../assets/social icons/x-twitter.svg";
@@ -8,10 +8,13 @@ import phone from "../assets/social icons/phone-solid.svg";
 import mail from "../assets/social icons/envelope-regular.svg";
 import whatsapp from "../assets/social icons/whatsapp.svg";
 import website from "../assets/social icons/globe-solid.svg";
+import { useState } from "react";
+import Tags from "../component/Articles/Tags";
 
 const ArticlePage = () => {
+  const [deleted, setDeleted] = useState(false);
   const path = useLocation().pathname;
-  const docsArray: Articles[] = useFirestoreDocs();
+  const docsArray: Articles[] = getDocuments();
 
   function findArticle(): Articles | undefined {
     // Using `find` to get the first matching article or undefined if not found
@@ -27,8 +30,45 @@ const ArticlePage = () => {
   const toDateTime = (secs: number) => {
     var t = new Date(1970, 0, 1); // Epoch
     t.setSeconds(secs);
-    return t.toString();
+
+    // Array of month names
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    // Formatting the date to "December 22, 2023"
+    return `${monthNames[t.getMonth()]} ${t.getDate()}, ${t.getFullYear()}`;
   };
+
+  // delete article
+  const handleDeleteArticle = async () => {
+    try {
+      await deleteDocuments(article?.id ?? "");
+      setDeleted(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (deleted) {
+    return <Navigate to="/articles" />;
+  }
+
+  if (!article) {
+    // Render some fallback UI or a loading indicator
+    return <div>Loading...</div>; // Example fallback UI
+  }
 
   // Make sure the article and articleBody exist before trying to map over it
   return (
@@ -64,12 +104,14 @@ const ArticlePage = () => {
 
       <div className="flex flex-col py-8">
         <Link
-          className="my-4 text-blue-600 hover:underline"
+          className="mb-1 mt-4 text-blue-600 hover:underline"
           to={"/author/" + article?.authorId}
         >
           By: {article?.author}
         </Link>
-        <p>{article?.date ? toDateTime(article.date?.seconds ?? 0) : null}</p>
+        <p className="text-sm">
+          {article?.date ? toDateTime(article.date?.seconds ?? 0) : null}
+        </p>
       </div>
 
       <div className="mx-auto max-w-[700px]">
@@ -82,16 +124,7 @@ const ArticlePage = () => {
             {para}
           </p>
         ))}
-        <div>
-          {article?.tag.map((aTag, index) => (
-            <span
-              key={index}
-              className="mr-2 rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-black"
-            >
-              {aTag}
-            </span>
-          ))}
-        </div>
+        <Tags tags={article?.tags ?? []} total={article?.tags?.length ?? 0} />
       </div>
       <div className="flex w-full flex-col items-center gap-4 text-gray-500">
         <h2 className="mx-auto w-[50%] text-center text-2xl font-semibold ">
@@ -133,6 +166,14 @@ const ArticlePage = () => {
               <img src={mail} alt="email" />
             </a>
           )}
+        </div>
+        <div>
+          <button
+            className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
+            onClick={handleDeleteArticle}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </article>

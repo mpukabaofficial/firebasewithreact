@@ -1,3 +1,5 @@
+import { getUsers } from "../api/users";
+import { User } from "../component/User";
 import { useUserAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
@@ -6,6 +8,8 @@ const TeamPage = () => {
   if (!user) {
     return <Navigate to="/login" />;
   }
+
+  const users: User[] = getUsers();
 
   const people = [
     {
@@ -64,12 +68,12 @@ const TeamPage = () => {
 
   return (
     <ul role="list" className="mx-auto max-w-[1024px] divide-y divide-gray-100">
-      {people.map((person) => (
+      {users.map((person) => (
         <li key={person.email} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
             <img
               className="h-12 w-12 flex-none rounded-full bg-gray-50"
-              src={person.imageUrl}
+              src={people[0].imageUrl}
               alt=""
             />
             <div className="min-w-0 flex-auto">
@@ -82,12 +86,12 @@ const TeamPage = () => {
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-            {person.lastSeen ? (
+            <p className="text-sm leading-6 text-gray-900">{people[0].role}</p>
+            {people[0].lastSeen ? (
               <p className="mt-1 text-xs leading-5 text-gray-500">
                 Last seen{" "}
-                <time dateTime={person.lastSeenDateTime}>
-                  {person.lastSeen}
+                <time dateTime={people[0].lastSeenDateTime}>
+                  {people[0].lastSeen}
                 </time>
               </p>
             ) : (

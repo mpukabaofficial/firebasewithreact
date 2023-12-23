@@ -1,34 +1,12 @@
-import { useEffect, useState } from "react";
-import { db } from "./firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import Documents from "./Documents";
 import { Task } from "../component/IndexPage/Task";
 
-// collection ref
-const colRef = collection(db, "tasks");
+const documents = new Documents<Task>("tasks");
 
-export const getTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+export function getTasks(): Task[] {
+  return documents.getDocuments();
+}
 
-  useEffect(() => {
-    const fetchDocs = async () => {
-      try {
-        const snapshot = await getDocs(colRef);
-        const results = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Task, "id">),
-        }));
-        setTasks(results);
-      } catch (error) {
-        console.error("Error fetching documents:", error);
-      }
-    };
+export const addTask = (tasks: Task) => documents.addDocument(tasks);
 
-    fetchDocs();
-  }, []);
-
-  return tasks;
-};
-
-export const addTask = async (task: Task) => {
-  await addDoc(colRef, task);
-};
+export const deleteTask = (id: string) => documents.deleteDocument(id);

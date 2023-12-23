@@ -20,3 +20,16 @@ input[type="checkbox"] {
 .social-links a {
   @apply rounded-full p-2 hover:bg-gray-200;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+}

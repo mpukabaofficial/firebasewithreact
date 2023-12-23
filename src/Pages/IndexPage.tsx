@@ -4,8 +4,8 @@ import { sidebar } from "../component/SideBarList";
 import { useUserAuth } from "../context/AuthContext";
 
 const IndexPage = () => {
-  const { user } = useUserAuth();
-  if (!user) {
+  const { user, ready } = useUserAuth();
+  if (!user && ready) {
     return <Navigate to={"/login"} />;
   }
   const sidebar: sidebar[] = [
@@ -106,7 +106,7 @@ const IndexPage = () => {
         <div>
           <IndexSideBar items={sidebar} />
         </div>
-        <div className="md:border-l md:p-2">
+        <div className="w-full md:border-l md:p-2">
           <Outlet />
         </div>
       </div>
