@@ -14,6 +14,7 @@ import Tags from "../component/Articles/Tags";
 const ArticlePage = () => {
   const [deleted, setDeleted] = useState(false);
   const path = useLocation().pathname;
+
   const docsArray: Articles[] = getDocuments();
 
   function findArticle(): Articles | undefined {

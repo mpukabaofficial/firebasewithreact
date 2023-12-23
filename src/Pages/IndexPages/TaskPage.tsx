@@ -5,6 +5,7 @@ import { deleteTask, getTasks } from "../../api/tasks";
 import { useState } from "react";
 
 const TaskPage = () => {
+  const { user, ready } = useUserAuth();
   const [redirect, setRedirect] = useState(false);
   const path = useLocation().pathname;
   const taskList: Task[] = getTasks();
@@ -23,7 +24,10 @@ const TaskPage = () => {
 
   // Get the article using the findTask function
   const task = findTask();
-  const { user } = useUserAuth();
+
+  if (!user && ready) {
+    return <Navigate to={"/login"} />;
+  }
   return (
     <div className="relative">
       {task?.owner === user?.uid && <p>{task?.name}</p>}

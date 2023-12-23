@@ -3,10 +3,10 @@ import TaskForm from "../../component/TaskPage/TaskForm";
 import { addTask, getTasks } from "../../api/tasks";
 import { Task } from "../../component/IndexPage/Task";
 import { useUserAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const TasksPage = () => {
-  const { user } = useUserAuth();
+  const { user, ready } = useUserAuth();
   const [formStatus, setFormStatus] = useState(false);
 
   const handleFormData = async (newTask: Task) => {
@@ -42,6 +42,10 @@ const TasksPage = () => {
       };
       return inputDate.toLocaleDateString("en-US", options);
     }
+  }
+
+  if (!user && ready) {
+    return <Navigate to={"/login"} />;
   }
 
   return (

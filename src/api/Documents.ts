@@ -9,6 +9,8 @@ import {
   doc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+
+// my imports
 import { db } from "./firebase";
 
 export default class Documents<T extends DocumentData> {
@@ -47,7 +49,7 @@ export default class Documents<T extends DocumentData> {
     return docsArray;
   }
 
-  public addDocument = async (docs: any) => {
+  public addDocument = async (docs: T) => {
     try {
       await addDoc(this.collectionRef, docs);
     } catch (error) {

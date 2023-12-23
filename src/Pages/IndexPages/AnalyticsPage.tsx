@@ -1,4 +1,11 @@
+import { Navigate } from "react-router-dom";
+import { useUserAuth } from "../../context/AuthContext";
+
 const AnalyticsPage = () => {
+  const { user, ready } = useUserAuth();
+  if (!user && ready) {
+    return <Navigate to={"/login"} />;
+  }
   return (
     <div>
       <div className="w-full max-w-sm rounded-lg bg-white p-4 shadow dark:bg-gray-800 md:p-6">
