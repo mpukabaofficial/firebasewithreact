@@ -18,8 +18,8 @@ export interface User {
   socialMedia: {
     facebook: string;
     instagram: string;
-    twitter: string;
     linkedin: string;
+    twitter: string;
   };
   website: string;
 }
