@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User } from "./User";
+import FileUpload from "./FileUpload";
 
 interface Props {
   username: string | null | undefined;
@@ -21,14 +22,21 @@ const UserProfileForm = ({
   const [about, setAbout] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const handleSaveProfile = () => {
+  const [photo, setPhoto] = useState("");
+  const [message, setMessage] = useState("");
+  const handleSaveProfile = (event: any) => {
+    event.preventDefault();
+    if (photo === "") {
+      setMessage("Please upload a photo");
+      return;
+    }
     const user: User = {
       username: username ?? "",
       email: email ?? "",
       about: about,
       name: [firstName, lastName].join("|"),
       id: id ?? "",
-      photo: "",
+      photo: photo,
     };
     setUser(user);
     onClose();
@@ -91,6 +99,17 @@ const UserProfileForm = ({
               <p className="mt-3 text-sm leading-6 text-gray-600">
                 Write a few sentences about yourself.
               </p>
+            </div>
+            <div className="col-span-full">
+              <label
+                htmlFor="photo"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Photo
+              </label>
+              <div className="mt-2">
+                <FileUpload setUrl={setPhoto} />
+              </div>
             </div>
           </div>
         </div>
@@ -185,6 +204,7 @@ const UserProfileForm = ({
           Save
         </button>
       </div>
+      <p className="text-sm text-red-500 ">{message}</p>
     </form>
   );
 };

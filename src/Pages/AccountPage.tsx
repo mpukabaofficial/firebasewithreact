@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+
 import { useUserAuth } from "../context/AuthContext";
 import { addUser, getUsers } from "../api/users";
 import { User } from "../component/User";
 import UserProfileForm from "../component/UserProfileForm";
-import { Navigate } from "react-router-dom";
 
 const AccountPage = () => {
-  const { user, ready } = useUserAuth();
+  const { user } = useUserAuth();
   const [currentUser, setCurrentUser] = useState<User>();
   const [showForm, setShowform] = useState(false);
 
@@ -28,8 +29,8 @@ const AccountPage = () => {
     addUser(user);
   };
 
-  if (!user && ready) {
-    return <Navigate to={"/login"} />;
+  if (!user) {
+    return <Navigate to="/" />;
   }
 
   return (
@@ -56,7 +57,7 @@ const AccountPage = () => {
         <div className="">
           <div className="flex aspect-square max-w-[300px] overflow-hidden">
             <img
-              src="https://images.pexels.com/photos/4298629/pexels-photo-4298629.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={currentUser?.photo ?? ""}
               alt=""
               className="h-full w-full object-cover"
             />

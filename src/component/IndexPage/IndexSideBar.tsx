@@ -10,7 +10,7 @@ const IndexSideBar = ({ items }: { items: sidebar[] }) => {
     return classes;
   };
   return (
-    <div className="right fixed bottom-0 left-0 right-0 flex w-full justify-center gap-6 p-2  md:relative md:w-60 md:flex-col md:gap-2 ">
+    <div className="right fixed bottom-0 left-0 right-0 flex w-full justify-center gap-6 bg-white p-2 md:relative  md:w-60 md:flex-col md:gap-2 md:bg-transparent ">
       {items.map((item) => (
         <Link
           to={item.url}
