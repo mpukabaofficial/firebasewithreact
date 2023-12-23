@@ -11,7 +11,6 @@ const FileUpload = ({ setUrl }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [done, setDone] = useState(false);
   const [showOne, setShowOne] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -109,7 +108,6 @@ const FileUpload = ({ setUrl }: Props) => {
               >
                 {!done ? "Click here to upload" : "Uploaded"}
               </button>
-              <p className="text-sm text-red-500 ">{message}</p>
             </div>
           )}
           {showOne && (
