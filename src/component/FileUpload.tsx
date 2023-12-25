@@ -5,9 +5,10 @@ import { storage } from "../api/firebase";
 
 interface Props {
   setUrl: (url: string) => void;
+  fileLocation: string;
 }
 
-const FileUpload = ({ setUrl }: Props) => {
+const FileUpload = ({ setUrl, fileLocation }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [done, setDone] = useState(false);
   const [showOne, setShowOne] = useState(false);
@@ -18,12 +19,12 @@ const FileUpload = ({ setUrl }: Props) => {
     }
   };
 
-  const uploadFile = (event: any) => {
+  const uploadFile = (event: React.MouseEvent) => {
     event.preventDefault();
     if (file) {
       const storageRef = ref(
         storage,
-        `user-profiles/${Date.now() + file.name}`
+        `${fileLocation}/${Date.now() + file.name}`
       );
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -66,7 +67,7 @@ const FileUpload = ({ setUrl }: Props) => {
         <div className="grid grid-cols-2 ">
           <button
             className={
-              " w-full  text-center text-blue-800 " +
+              " w-full p-2 text-center text-blue-800 " +
               (showOne ? " bg-blue-100 " : "")
             }
             onClick={handleLinkUpload}
@@ -75,7 +76,7 @@ const FileUpload = ({ setUrl }: Props) => {
           </button>
           <button
             className={
-              "w-full  text-center text-blue-800" +
+              "w-full p-2 text-center text-blue-800" +
               (!showOne ? " bg-blue-100 " : "")
             }
             onClick={handleFileUpload}

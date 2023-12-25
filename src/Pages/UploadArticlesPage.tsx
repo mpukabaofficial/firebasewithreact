@@ -4,6 +4,7 @@ import { useUserAuth } from "../context/AuthContext";
 import { Articles } from "../component/ArticlesStructure";
 import { Navigate } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
+import FileUpload from "../component/FileUpload";
 
 const UploadArticlesPage = () => {
   const { user } = useUserAuth();
@@ -25,8 +26,13 @@ const UploadArticlesPage = () => {
     type: "",
     articleBody: [],
     date: Timestamp.now(),
+    likes: 0,
+    comments: 0,
+    views: 0,
+    shares: 0,
   });
   const [uploaded, setUploaded] = useState(false);
+  const [photo, setPhoto] = useState("");
 
   // these are the current categories, tags and types
   const categories = [
@@ -60,7 +66,7 @@ const UploadArticlesPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await addArticle(article);
+      await addArticle({ ...article, picture: photo });
       setArticle({
         articleInfo: "",
         author: user?.displayName || "",
@@ -79,6 +85,10 @@ const UploadArticlesPage = () => {
         type: "",
         articleBody: [],
         date: Timestamp.now(),
+        likes: 0,
+        comments: 0,
+        views: 0,
+        shares: 0,
       });
       setUploaded(true);
     } catch (error) {
@@ -147,6 +157,7 @@ const UploadArticlesPage = () => {
             "tags",
             "articleBody",
             "date",
+            "picture",
           ].includes(key)
         ) {
           return null; // These are handled separately
@@ -171,6 +182,8 @@ const UploadArticlesPage = () => {
           />
         );
       })}
+      {/* picture */}
+      <FileUpload setUrl={setPhoto} fileLocation="articlePics" />
 
       {/* TextArea for 'articleBody' */}
       <textarea

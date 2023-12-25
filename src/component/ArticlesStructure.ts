@@ -19,4 +19,8 @@ export interface Articles {
   type: string;
   articleBody: string[];
   date: Timestamp;
+  likes: number;
+  comments: number;
+  views: number;
+  shares: number;
 }

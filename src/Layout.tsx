@@ -3,7 +3,10 @@ import Header from "./Header";
 import SideBar from "./component/SideBar";
 import { sidebar } from "./component/SideBarList";
 import Footer from "./Footer";
+import { useUserAuth } from "./context/AuthContext";
+import Loading from "./component/Loading";
 const Layout = () => {
+  const { ready } = useUserAuth();
   const location = useLocation().pathname.split("/");
   const sidebarList: sidebar[] = [
     {
@@ -30,6 +33,10 @@ const Layout = () => {
     { name: "upload", url: "/upload" },
     { name: "team", url: "/team" },
   ];
+
+  if (!ready) {
+    return <Loading />;
+  }
 
   return (
     <div className="">

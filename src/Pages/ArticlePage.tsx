@@ -11,6 +11,7 @@ import website from "../assets/social icons/globe-solid.svg";
 import { useState } from "react";
 import Tags from "../component/Articles/Tags";
 import { useUserAuth } from "../context/AuthContext";
+import Engagement from "../component/Articles/Engagement";
 
 const ArticlePage = () => {
   const { user } = useUserAuth();
@@ -80,7 +81,10 @@ const ArticlePage = () => {
   return (
     <article className="mx-auto max-w-[1024px]">
       <div className="gap-4 text-black">
-        <Link to={"/articles"} className="p-2">
+        <Link
+          to={"/articles"}
+          className="flex w-fit rounded-full bg-gray-200 p-2 transition-all duration-200 ease-in-out hover:bg-gray-300"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -107,6 +111,13 @@ const ArticlePage = () => {
           className="h-full w-full object-cover"
         />
       </div>
+
+      <Engagement
+        views={article?.views}
+        likes={article.likes}
+        comments={article.comments}
+        shares={article.shares}
+      />
 
       <div className="flex flex-col py-8">
         <Link

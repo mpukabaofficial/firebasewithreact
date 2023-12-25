@@ -85,13 +85,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      if (!currentUser === !ready) setReady(!!currentUser);
+      setReady(true);
     });
 
     return () => {
       unsubscribe();
     };
-  }, [ready]);
+  }, []);
 
   const logout = async () => {
     try {
