@@ -15,7 +15,7 @@ const OverviewPage = () => {
       link: "/articles",
     },
     {
-      title: "Task",
+      title: "Tasks",
       description:
         " Sed condimentum lorem sed pulvinar dignissim. Cras purus lectus, euismod in accumsan sed, sagittis in justo. Nullam id neque imperdiet, viverra arcu ac, dapibus velit. Phasellus laoreet nulla et quam fermentum aliquet. Maecenas auctor metus sed accumsan efficitur. Aenean varius ullamcorper nulla, quis venenatis quam. Nam ac neque ipsum. ",
       link: "/tasks",
@@ -43,9 +43,10 @@ const OverviewPage = () => {
               {section.title}
             </h5>
           </a>
-          <p className="mb-3 line-clamp-4 font-normal text-gray-700">
+          <p className="mb-3 line-clamp-4 font-normal text-gray-700 ">
             {section.description}
           </p>
+
           <div>
             <Link
               className="inline-flex items-center rounded-lg bg-blue-500 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"

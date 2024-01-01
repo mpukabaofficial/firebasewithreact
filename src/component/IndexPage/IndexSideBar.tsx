@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { sidebar } from "../SideBarList";
+import { sidebar } from "./SideBarList";
 
 const IndexSideBar = ({ items }: { items: sidebar[] }) => {
   const path = useLocation().pathname;

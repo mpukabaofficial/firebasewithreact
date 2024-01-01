@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import IndexSideBar from "../component/IndexPage/IndexSideBar";
-import { sidebar } from "../component/SideBarList";
+import { sidebar } from "../component/IndexPage/SideBarList";
 import { useUserAuth } from "../context/AuthContext";
 
 const IndexPage = () => {
@@ -96,7 +96,7 @@ const IndexPage = () => {
     },
   ];
   return (
-    <div className="mx-auto flex max-w-screen-xl flex-col p-4">
+    <div className="mx-auto flex max-w-screen-xl flex-col p-4 ">
       <h2 className="text-center text-2xl font-semibold">
         {!!user && user.displayName !== null
           ? "Hey " + user.displayName.trim() + "!"

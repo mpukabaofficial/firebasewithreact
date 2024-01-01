@@ -1,7 +1,7 @@
 import { getDocuments } from "../api/articles";
-import { Articles } from "../component/ArticlesStructure";
+import { Articles } from "../component/Articles/ArticlesStructure";
 import { useLocation } from "react-router-dom";
-import ArticlesCard from "../component/ArticlesCard";
+import ArticlesCard from "../component/Articles/ArticlesCard";
 
 const AuthorPage = () => {
   const docsArray: Articles[] = getDocuments();

@@ -1,0 +1,23 @@
+{
+  "typesOfArticles": ["Article", "Advertisement"],
+  "Editions": [
+    "First Edition",
+    "Second Edition",
+    "Third Edition",
+    "Fourth Edition",
+    "Fifth Edition"
+  ],
+  "Categories": [
+    "Automotive",
+    "Business",
+    "Education",
+    "Entertainment",
+    "Food and Cooking",
+    "Health",
+    "Lifestyle",
+    "Personal Finance",
+    "Politics",
+    "Science",
+    "Technology"
+  ]
+}

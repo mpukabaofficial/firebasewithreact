@@ -1,131 +1,110 @@
-import { useState, FormEvent, ChangeEvent } from "react";
-import { addArticle } from "../api/articles";
-import { useUserAuth } from "../context/AuthContext";
-import { Articles } from "../component/ArticlesStructure";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { Timestamp } from "firebase/firestore";
-import FileUpload from "../component/FileUpload";
+import { useNavigate } from "react-router-dom";
 
+// personal imports
+import { addArticle } from "../api/articles";
+import { Article } from "../component/Articles/ArticlesStructure";
+import FileUpload from "../component/utilities/FileUpload";
+import tagsList from "../../tags.json";
+import { useUserAuth } from "../context/AuthContext";
+import { initialArticle } from "../component/Articles/ArticlesStructure";
+import Inputs from "../component/UploadArticles/Inputs";
+import Select from "../component/UploadArticles/Select";
+import Checkboxes from "../component/UploadArticles/Checkboxes";
+import AddTag from "../component/UploadArticles/AddTag";
+
+// beginning of Page
 const UploadArticlesPage = () => {
+  // functional component
   const { user } = useUserAuth();
-  const [article, setArticle] = useState<Articles>({
-    articleInfo: "",
+  const navigate = useNavigate();
+
+  // useState
+  const [article, setArticle] = useState<Article>({
+    ...initialArticle,
     author: user?.displayName || "",
     authorEmail: user?.email || "",
     authorId: user?.uid || "",
-    category: "",
-    facebook: "",
-    instagram: "",
-    WhatsApp: "",
-    Twitter: "",
-    Number: "",
-    Website: "",
-    picture: "",
-    pictureDesc: "",
-    tags: [""],
-    type: "",
-    articleBody: [],
-    date: Timestamp.now(),
-    likes: 0,
-    comments: 0,
-    views: 0,
-    shares: 0,
   });
   const [uploaded, setUploaded] = useState(false);
-  const [photo, setPhoto] = useState("");
-
-  // these are the current categories, tags and types
-  const categories = [
-    "themed",
-    "cover",
-    "pearls",
-    "ads-elements",
-    "other-edition",
-    "spiritual",
-  ];
-  const types = ["Advertisement", "Article"];
-
-  const [tags, setTags] = useState<string[]>([
-    "Fifth Edition",
-    "Fourth Edition",
-    "Third Edition",
-    "Second Edition",
-    "First Edition",
-    "Spiritual",
-    "Spotlight",
-    "Politics",
-    "Ad",
-  ]);
+  const [picture, setPicture] = useState("");
+  const [tags, setTags] = useState<string[]>(tagsList.Categories);
   const [tag, setTag] = useState("");
+  const [categories, setCategories] = useState(new Set());
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  // useEffects
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    // When article is loaded, initialize categories from article
+    setCategories(new Set(article.categories));
+  }, [article.categories]);
 
   // when form is submitted, it uses the addDocuments(defined in firestore.ts) and then resets the article
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // Convert Set of categories to an Array
+    const categoriesArray = Array.from(categories);
+
+    // Construct the article object with updated categories
+    const updatedArticle = {
+      ...article,
+      categories: categoriesArray,
+      picture: picture, // Assuming 'photo' is the state for the picture URL
+      // Add other fields as necessary
+    };
+
     try {
-      await addArticle({ ...article, picture: photo });
+      await addArticle(updatedArticle);
+      // Resetting the article to initial state and other states as needed
       setArticle({
-        articleInfo: "",
+        ...initialArticle,
         author: user?.displayName || "",
         authorEmail: user?.email || "",
         authorId: user?.uid || "",
-        category: "",
-        facebook: "",
-        instagram: "",
-        WhatsApp: "",
-        Twitter: "",
-        Number: "",
-        Website: "",
-        picture: "",
-        pictureDesc: "",
-        tags: [],
-        type: "",
-        articleBody: [],
-        date: Timestamp.now(),
-        likes: 0,
-        comments: 0,
-        views: 0,
-        shares: 0,
       });
+      setCategories(new Set()); // Resetting categories
       setUploaded(true);
+      setPicture(""); // Reset photo state if necessary
+      // Additional state resets as needed
     } catch (error) {
       console.error("Error adding document:", error);
+      // Handle the error appropriately
     }
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    event: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setArticle((prevArticle) => ({
       ...prevArticle,
       [name]: value,
     }));
   };
 
-  const handleBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const paragraphs = e.target.value.split("\n\n");
+  const handleBodyChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const paragraphs = event.target.value.split("\n\n");
     setArticle((prevArticle) => ({
       ...prevArticle,
       articleBody: paragraphs,
     }));
   };
 
-  const handleTagChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setArticle((prevArticle) => {
-      // Add or remove the value from the tag array
-      const newTags = checked
-        ? [...prevArticle.tags, value]
-        : prevArticle.tags.filter((t) => t !== value);
-
-      return {
-        ...prevArticle,
-        tags: newTags,
-      };
+  const handleTagChange = (tag: string, isChecked: boolean) => {
+    setCategories((prevCategories) => {
+      const newCategories = new Set(prevCategories);
+      if (isChecked) newCategories.add(tag);
+      else newCategories.delete(tag);
+      return newCategories;
     });
   };
 
@@ -147,117 +126,70 @@ const UploadArticlesPage = () => {
       className="m-auto flex max-w-screen-md flex-col gap-4"
       onSubmit={handleSubmit}
     >
-      {/* Render inputs for all keys except for 'authorId', 'category', 'type', 'tag', and 'articleBody' */}
-      {Object.keys(article).map((key) => {
-        if (
-          [
-            "authorId",
-            "category",
-            "type",
-            "tags",
-            "articleBody",
-            "date",
-            "picture",
-          ].includes(key)
-        ) {
-          return null; // These are handled separately
-        }
-
-        return (
-          <input
-            key={key}
-            type="text"
-            name={key}
-            value={(article as any)[key]}
-            onChange={handleChange}
-            placeholder={
-              key.charAt(0).toUpperCase() +
-              key
-                .slice(1)
-                .replace(/([A-Z])/g, " $1")
-                .trim()
-            }
-            disabled={key === "authorEmail" || key === "author"}
-            className="border p-2"
-          />
-        );
-      })}
+      <Inputs
+        article={article}
+        ommited={[
+          "authorId",
+          "categories",
+          "type",
+          "tags",
+          "articleBody",
+          "date",
+          "picture",
+          "comments",
+          "views",
+          "likes",
+          "shares",
+          "edition",
+        ]}
+        onHandleChange={handleChange}
+      />
       {/* picture */}
-      <FileUpload setUrl={setPhoto} fileLocation="articlePics" />
+      <FileUpload setUrl={setPicture} fileLocation="articlePics" />
 
       {/* TextArea for 'articleBody' */}
+
       <textarea
         name="articleBody"
         value={article.articleBody}
         onChange={handleBodyChange}
         placeholder="Article Body"
-        className="max-h-fit min-h-[20vh] border p-2"
+        className="max-h-fit min-h-[20vh] w-full resize-none rounded-md border p-2 shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
+        style={{
+          fontFamily: "Arial, sans-serif",
+          fontSize: "16px",
+          lineHeight: "1.5",
+        }}
       />
 
-      {/* Select for 'category' */}
-      <select
-        name="category"
-        value={article.category}
-        onChange={handleChange}
-        className="border p-2"
-      >
-        <option value="">Select Category</option>
-        {categories.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
+      {/* Select for 'edition' */}
 
-      {/* Select for 'type' */}
-      <select
-        name="type"
-        value={article.type}
-        onChange={handleChange}
-        className="border p-2"
-      >
-        <option value="">Select Type</option>
-        {types.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
+      <Select
+        onHandleChange={handleChange}
+        selected={article.edition}
+        selectionList={tagsList.Editions}
+        title={"Select Edition"}
+        name={"edition"}
+      />
+      {/* Select for types of articles */}
+      <Select
+        onHandleChange={handleChange}
+        selected={article.type}
+        selectionList={tagsList.typesOfArticles}
+        title={"Select Type"}
+        name={"type"}
+      />
 
       {/* Checkboxes for selecting tags */}
-      <fieldset className="">
-        <legend>Select Tags</legend>
-        {tags.map((tag, index) => (
-          <label key={index} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="tag"
-              value={tag}
-              checked={article.tags.includes(tag)}
-              onChange={handleTagChange}
-            />
-            <span>{tag}</span>
-          </label>
-        ))}
-      </fieldset>
+      <Checkboxes
+        title={"Select Categories"}
+        tags={tags}
+        selectedCategories={categories as Set<string>}
+        onHandleTagChange={handleTagChange}
+      />
 
       {/* Input for adding a new tag */}
-      <div className="flex items-center gap-2">
-        <input
-          type="text"
-          placeholder="Add a tag"
-          className="border p-2"
-          onChange={(e) => setTag(e.target.value)}
-          value={tag}
-        />
-        <button
-          type="button"
-          onClick={handleAddTag}
-          className="flex min-w-fit justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-        >
-          Add tag
-        </button>
-      </div>
+      <AddTag tag={tag} onSetTag={setTag} onHandleAddTag={handleAddTag} />
 
       <button
         type="submit"

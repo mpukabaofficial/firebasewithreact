@@ -1,4 +1,4 @@
-import { User } from "../component/User";
+import { User } from "../component/Account/User";
 import Documents from "./Documents";
 
 const documents = new Documents<User>("users");

@@ -3,8 +3,8 @@ import { Navigate } from "react-router-dom";
 
 import { useUserAuth } from "../context/AuthContext";
 import { addUser, getUsers } from "../api/users";
-import { User } from "../component/User";
-import UserProfileForm from "../component/UserProfileForm";
+import { User } from "../component/Account/User";
+import UserProfileForm from "../component/Account/UserProfileForm";
 
 const AccountPage = () => {
   const { user } = useUserAuth();

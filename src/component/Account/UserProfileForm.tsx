@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User } from "./User";
-import FileUpload from "./FileUpload";
+import FileUpload from "../utilities/FileUpload";
 
 interface Props {
   username: string | null | undefined;

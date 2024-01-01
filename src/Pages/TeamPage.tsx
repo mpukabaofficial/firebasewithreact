@@ -1,5 +1,5 @@
 import { getUsers } from "../api/users";
-import { User } from "../component/User";
+import { User } from "../component/Account/User";
 import { useUserAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 

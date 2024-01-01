@@ -1,7 +1,7 @@
 // FileUpload.tsx
 import React, { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../api/firebase";
+import { storage } from "../../api/firebase";
 
 interface Props {
   setUrl: (url: string) => void;

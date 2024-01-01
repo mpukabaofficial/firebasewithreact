@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+
 import TaskForm from "../../component/TaskPage/TaskForm";
 import { addTask, getTasks } from "../../api/tasks";
 import { Task } from "../../component/IndexPage/Task";
 import { useUserAuth } from "../../context/AuthContext";
-import { Link, Navigate } from "react-router-dom";
+import { formatDateString } from "../../component/utilities/DateFormatting";
 
 const TasksPage = () => {
   const { user } = useUserAuth();
@@ -15,34 +17,6 @@ const TasksPage = () => {
   };
 
   const taskList: Task[] = getTasks();
-
-  function formatDateString(dateString: string): string {
-    const inputDate = new Date(dateString);
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Reset time to start of the day
-
-    const isToday = inputDate.toDateString() === currentDate.toDateString();
-    const isOverdue = inputDate < currentDate;
-
-    if (isOverdue && !isToday) {
-      const diffTime = Math.abs(currentDate.getTime() - inputDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return `Overdue by ${diffDays} day(s)`;
-    } else if (isToday) {
-      const options: Intl.DateTimeFormatOptions = {
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return inputDate.toLocaleTimeString("en-US", options);
-    } else {
-      const options: Intl.DateTimeFormatOptions = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      };
-      return inputDate.toLocaleDateString("en-US", options);
-    }
-  }
 
   if (!user) {
     return <Navigate to={"/login"} />;

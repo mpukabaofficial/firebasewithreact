@@ -1,10 +1,11 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
-import SideBar from "./component/SideBar";
-import { sidebar } from "./component/SideBarList";
+import SideBar from "./component/IndexPage/SideBar";
+import { sidebar } from "./component/IndexPage/SideBarList";
 import Footer from "./Footer";
 import { useUserAuth } from "./context/AuthContext";
-import Loading from "./component/Loading";
+import Loading from "./component/utilities/Loading";
+
 const Layout = () => {
   const { ready } = useUserAuth();
   const location = useLocation().pathname.split("/");

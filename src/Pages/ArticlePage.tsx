@@ -1,59 +1,43 @@
-import { Articles } from "../component/ArticlesStructure";
-import { deleteDocuments, getDocuments } from "../api/articles";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import facebook from "../assets/social icons/facebook.svg";
-import instagram from "../assets/social icons/instagram.svg";
-import twitter from "../assets/social icons/x-twitter.svg";
-import phone from "../assets/social icons/phone-solid.svg";
-import mail from "../assets/social icons/envelope-regular.svg";
-import whatsapp from "../assets/social icons/whatsapp.svg";
-import website from "../assets/social icons/globe-solid.svg";
 import { useState } from "react";
+
+// personal imports
 import Tags from "../component/Articles/Tags";
 import { useUserAuth } from "../context/AuthContext";
 import Engagement from "../component/Articles/Engagement";
+import SocialMedia from "../component/Articles/SocialMedia";
+import { Article } from "../component/Articles/ArticlesStructure";
+import { deleteDocuments, getDocuments } from "../api/articles";
+import { toDateTime } from "../component/utilities/DateFormatting";
+import Loading from "../component/utilities/Loading";
+import { User } from "../component/Account/User";
+import { getUsers } from "../api/users";
 
 const ArticlePage = () => {
   const { user } = useUserAuth();
-  const [deleted, setDeleted] = useState(false);
+  const docsArray: Article[] = getDocuments();
   const path = useLocation().pathname;
 
-  const docsArray: Articles[] = getDocuments();
+  const [deleted, setDeleted] = useState(false);
 
-  function findArticle(): Articles | undefined {
-    // Using `find` to get the first matching article or undefined if not found
+  function findArticle(): Article | undefined {
+    const pathSegments = path.split("/");
     return docsArray.find((article) =>
-      path.split("/").includes(String(article.id))
+      pathSegments.includes(String(article.id))
     );
   }
 
   // Get the article using the findArticle function
-  const article: Articles | undefined = findArticle();
+  const article: Article | undefined = findArticle();
 
-  // change timestamp to date and time
-  const toDateTime = (secs: number) => {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(secs);
+  const users: User[] = getUsers();
 
-    // Array of month names
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    // Formatting the date to "December 22, 2023"
-    return `${monthNames[t.getMonth()]} ${t.getDate()}, ${t.getFullYear()}`;
-  };
+  // find the user
+  function findUser(): User | undefined {
+    if (article) {
+      return users.find((user) => user.id === article.authorId);
+    }
+  }
 
   // delete article
   const handleDeleteArticle = async () => {
@@ -71,7 +55,7 @@ const ArticlePage = () => {
 
   if (!article) {
     // Render some fallback UI or a loading indicator
-    return <div>Loading...</div>; // Example fallback UI
+    return <Loading />; // Example fallback UI
   }
 
   if (!user) {
@@ -101,7 +85,7 @@ const ArticlePage = () => {
           </svg>
         </Link>
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900  md:text-5xl lg:text-6xl">
-          {article?.articleInfo}
+          {article?.title}
         </h1>
       </div>
       <div className="flex aspect-video w-full overflow-hidden">
@@ -124,7 +108,25 @@ const ArticlePage = () => {
           className="mb-1 mt-4 text-blue-600 hover:underline"
           to={"/author/" + article?.authorId}
         >
-          By: {article?.author}
+          {/* By: {article?.author} */}
+          <div className="flex items-center gap-4">
+            <div className="h-10 w-10 overflow-hidden rounded-full">
+              {findUser()?.photo ? (
+                <img
+                  className="h-full w-full rounded-full object-cover"
+                  src={findUser()?.photo}
+                  alt=""
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-500 text-lg font-bold text-white">
+                  {article?.author?.slice(0, 1)}
+                </div>
+              )}
+            </div>
+            <div className="font-medium ">
+              <div>{article?.author}</div>
+            </div>
+          </div>
         </Link>
         <p className="text-sm">
           {article?.date ? toDateTime(article.date?.seconds ?? 0) : null}
@@ -141,49 +143,13 @@ const ArticlePage = () => {
             {para}
           </p>
         ))}
-        <Tags tags={article?.tags ?? []} total={article?.tags?.length ?? 0} />
+        <Tags
+          tags={[...article.categories, article.type, article.edition] ?? []}
+          total={article?.categories?.length + 2 ?? 0}
+        />
       </div>
       <div className="flex w-full flex-col items-center gap-4 text-gray-500">
-        <h2 className="mx-auto w-[50%] text-center text-2xl font-semibold ">
-          Get in contact
-        </h2>
-        <div className="social-links flex flex-wrap gap-2">
-          {!!article?.facebook && (
-            <a href={article?.facebook}>
-              <img src={facebook} alt="facebook" />
-            </a>
-          )}
-          {!!article?.instagram && (
-            <a href={article?.instagram}>
-              <img src={instagram} alt="instagram" />
-            </a>
-          )}
-          {!!article?.Twitter && (
-            <a href={article?.Twitter}>
-              <img src={twitter} alt="twitter" />
-            </a>
-          )}
-          {!!article?.WhatsApp && (
-            <a href={article?.WhatsApp}>
-              <img src={whatsapp} alt="whatsapp" />
-            </a>
-          )}
-          {!!article?.Website && (
-            <a href={article?.Website}>
-              <img src={website} alt="website" />
-            </a>
-          )}
-          {!!article?.Number && (
-            <a href={"tel:" + article?.Number}>
-              <img src={phone} alt="phone" />
-            </a>
-          )}
-          {!!article?.authorEmail && (
-            <a href={"mailto:" + article?.authorEmail}>
-              <img src={mail} alt="email" />
-            </a>
-          )}
-        </div>
+        <SocialMedia article={article} />
         <div>
           <button
             className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"

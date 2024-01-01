@@ -1,4 +1,4 @@
-import { Articles } from "../component/ArticlesStructure";
+import { Articles } from "../component/Articles/ArticlesStructure";
 import Documents from "./Documents";
 
 const documents = new Documents<Articles>("articles");
