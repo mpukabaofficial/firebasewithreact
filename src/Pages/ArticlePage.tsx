@@ -151,12 +151,12 @@ const ArticlePage = () => {
       <div className="flex w-full flex-col items-center gap-4 text-gray-500">
         <SocialMedia article={article} />
         <div>
-          <button
+          {article.authorId === user.uid && <button
             className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
             onClick={handleDeleteArticle}
           >
             Delete
-          </button>
+          </button>}
         </div>
       </div>
     </article>

@@ -1,18 +1,18 @@
-import { useState, ChangeEvent, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, ChangeEvent, useEffect } from "react";
 
 // personal imports
 import { addArticle } from "../api/articles";
+import AddTag from "../component/UploadArticles/AddTag";
 import { Article } from "../component/Articles/ArticlesStructure";
+import Checkboxes from "../component/UploadArticles/Checkboxes";
 import FileUpload from "../component/utilities/FileUpload";
-import tagsList from "../../tags.json";
-import { useUserAuth } from "../context/AuthContext";
 import { initialArticle } from "../component/Articles/ArticlesStructure";
 import Inputs from "../component/UploadArticles/Inputs";
 import Select from "../component/UploadArticles/Select";
-import Checkboxes from "../component/UploadArticles/Checkboxes";
-import AddTag from "../component/UploadArticles/AddTag";
+import tagsList from "../../tags.json";
+import { useUserAuth } from "../context/AuthContext";
 
 // beginning of Page
 const UploadArticlesPage = () => {
