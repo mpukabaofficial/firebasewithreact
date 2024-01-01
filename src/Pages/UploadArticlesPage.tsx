@@ -61,7 +61,10 @@ const UploadArticlesPage = () => {
     };
 
     try {
-      await addArticle(updatedArticle);
+      await addArticle({
+        ...updatedArticle,
+        categories: categoriesArray.map((category) => String(category)),
+      });
       // Resetting the article to initial state and other states as needed
       setArticle({
         ...initialArticle,
