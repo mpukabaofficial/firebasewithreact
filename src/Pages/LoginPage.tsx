@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom";
 import { useUserAuth } from "../context/AuthContext";
 import { FormEvent, useState } from "react";
+import SignInWithGoogle from "../component/utilities/SignInWithGoogle";
 
 const LoginPage = () => {
   const { login, user } = useUserAuth();
@@ -17,7 +18,7 @@ const LoginPage = () => {
       setRedirect(true);
     } catch (err: any) {
       setError(err.message);
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -92,6 +93,7 @@ const LoginPage = () => {
             Register
           </Link>
         </p>
+        <SignInWithGoogle onSetError={setError} onSetRedirect={setRedirect} />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 import { useUserAuth } from "../context/AuthContext";
+import SignInWithGoogle from "../component/utilities/SignInWithGoogle";
 
 const RegisterPage = () => {
   const { user, ready } = useUserAuth();
@@ -9,6 +10,7 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState("");
 
   const { createUser } = useUserAuth();
 
@@ -20,7 +22,7 @@ const RegisterPage = () => {
       await createUser(name, email, password);
       setRedirect(true);
     } catch (err: any) {
-      alert(err.message); // Corrected from 'error' to 'err'
+      alert(error); // Corrected from 'error' to 'err'
     }
   }
 
@@ -112,6 +114,7 @@ const RegisterPage = () => {
             Sign in
           </Link>
         </p>
+        <SignInWithGoogle onSetError={setError} onSetRedirect={setRedirect} />
       </div>
     </div>
   );

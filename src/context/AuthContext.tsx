@@ -13,6 +13,8 @@ import {
   User as FirebaseUser,
   Auth,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../api/firebase";
 
@@ -30,6 +32,7 @@ interface AuthContextProps {
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<User | null>;
   ready: boolean;
+  signInWithGoogle: () => Promise<User | null>;
 }
 
 interface AuthContextProviderProps {
@@ -59,6 +62,22 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     } catch (error: any) {
       console.error("Error creating user:", error.message);
       throw new Error("Failed to create user");
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Store the authenticated user in local storage
+      localStorage.setItem("authenticatedUser", JSON.stringify(user));
+
+      return user;
+    } catch (error: any) {
+      console.error("Error signing in with Google:", error.message);
+      throw new Error("Failed to sign in with Google");
     }
   };
 
@@ -106,7 +125,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, createUser, logout, login, ready }}>
+    <UserContext.Provider
+      value={{ user, createUser, logout, login, ready, signInWithGoogle }}
+    >
       {children}
     </UserContext.Provider>
   );
