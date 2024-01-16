@@ -10,3 +10,6 @@ export function getUsers(): User[] {
 export const addUser = (users: User) => documents.addDocument(users);
 
 export const deleteUser = (id: string) => documents.deleteDocument(id);
+
+export const updateUser = (id: string, data: User) =>
+  documents.updateDocument(id, data);

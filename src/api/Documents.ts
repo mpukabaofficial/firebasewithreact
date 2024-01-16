@@ -7,6 +7,7 @@ import {
   DocumentData,
   QuerySnapshot,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
@@ -62,5 +63,15 @@ export default class Documents<T extends DocumentData> {
       const docRef = doc(this.collectionRef, id);
       await deleteDoc(docRef);
     } catch (error) {}
+  };
+
+  public updateDocument = async (id: string, data: T) => {
+    try {
+      const docRef = doc(this.collectionRef, id);
+      await updateDoc(docRef, data);
+    } catch (error) {
+      console.error("Error updating document: ", error);
+      alert("Error updating document: " + error);
+    }
   };
 }

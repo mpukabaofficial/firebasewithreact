@@ -15,6 +15,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
 import { auth } from "../api/firebase";
 
@@ -32,7 +33,7 @@ interface AuthContextProps {
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<User | null>;
   ready: boolean;
-  signInWithGoogle: () => Promise<User | null>;
+  signInWithGoogle: () => Promise<FirebaseUser | undefined>;
 }
 
 interface AuthContextProviderProps {
@@ -66,15 +67,29 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   const signInWithGoogle = async () => {
+    const screenWidth = window.screen.width;
+    const provider = new GoogleAuthProvider();
+
     try {
-      const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
+      let userCredential;
+      if (screenWidth < 768) {
+        // Redirect sign-in for smaller screens
+        signInWithRedirect(auth, provider);
+      } else {
+        // Popup sign-in for larger screens
+        userCredential = await signInWithPopup(auth, provider);
+      }
 
-      // Store the authenticated user in local storage
-      localStorage.setItem("authenticatedUser", JSON.stringify(user));
+      // For redirect sign-in, handle the result in the redirect callback using getRedirectResult
 
-      return user;
+      // Storing user in local storage (consider security implications)
+      if (userCredential) {
+        localStorage.setItem(
+          "authenticatedUser",
+          JSON.stringify(userCredential.user)
+        );
+        return userCredential.user;
+      }
     } catch (error: any) {
       console.error("Error signing in with Google:", error.message);
       throw new Error("Failed to sign in with Google");
