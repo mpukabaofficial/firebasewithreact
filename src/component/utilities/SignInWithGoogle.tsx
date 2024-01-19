@@ -20,7 +20,7 @@ const SignInWithGoogle = ({ onSetError, onSetRedirect }: Props) => {
   return (
     <button
       onClick={handleGoogleLogin}
-      className="mx-auto mt-10 flex items-center justify-center gap-2 rounded-xl border px-2 py-1 text-sm text-gray-500 transition-all duration-300 ease-in-out hover:bg-gray-300"
+      className="mx-auto mt-10 hidden items-center justify-center gap-2 rounded-xl border px-2 py-1 text-sm text-gray-500 transition-all duration-300 ease-in-out hover:bg-gray-300 xl:flex"
     >
       <FaGoogle />
       <span>Sign in with Google</span>

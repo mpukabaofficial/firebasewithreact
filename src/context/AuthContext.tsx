@@ -67,18 +67,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   const signInWithGoogle = async () => {
-    const screenWidth = window.screen.width;
     const provider = new GoogleAuthProvider();
 
     try {
-      let userCredential;
-      if (screenWidth < 768) {
-        // Redirect sign-in for smaller screens
-        signInWithRedirect(auth, provider);
-      } else {
-        // Popup sign-in for larger screens
-        userCredential = await signInWithPopup(auth, provider);
-      }
+      let userCredential = await signInWithPopup(auth, provider);
 
       // For redirect sign-in, handle the result in the redirect callback using getRedirectResult
 
