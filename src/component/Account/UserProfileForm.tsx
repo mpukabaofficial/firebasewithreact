@@ -108,7 +108,7 @@ const UserProfileForm = ({
                 Photo
               </label>
               <div className="mt-2">
-                <FileUpload setUrl={setPhoto} fileLocation={"user-profiles"} />
+                <FileUpload setUrl={setPhoto} fileLocation={"profile"} />
               </div>
             </div>
           </div>

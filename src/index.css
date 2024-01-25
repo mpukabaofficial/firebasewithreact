@@ -33,3 +33,7 @@ input[type="checkbox"] {
 .loader {
   animation: spin 1s linear infinite;
 }
+
+.btn {
+  @apply m-2 flex items-center  justify-center rounded-xl bg-black p-4 py-2 text-white hover:bg-gray-800;
+}

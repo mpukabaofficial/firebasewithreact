@@ -148,7 +148,7 @@ const UploadArticlesPage = () => {
         onHandleChange={handleChange}
       />
       {/* picture */}
-      <FileUpload setUrl={setPicture} fileLocation="articlePics" />
+      <FileUpload setUrl={setPicture} fileLocation="articles" />
 
       {/* TextArea for 'articleBody' */}
 

@@ -8,10 +8,10 @@ import TextInput from "../TextInput";
 
 interface Props {
   setUrl: (url: string) => void;
-  fileLocation: string;
+  fileLocation?: string;
 }
 
-const FileUpload = ({ setUrl, fileLocation }: Props) => {
+const FileUpload = ({ setUrl, fileLocation = "other" }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<
     "idle" | "uploading" | "success" | "error"
@@ -40,11 +40,12 @@ const FileUpload = ({ setUrl, fileLocation }: Props) => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setUrl(downloadURL);
             setUploadStatus("success");
+            setFile(null); // Reset file to prevent re-uploading
           });
         }
       );
     }
-  }, [file, fileLocation, setUrl]);
+  }, [file, setUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
