@@ -20,7 +20,7 @@ const Select = ({
       name={name}
       value={selected}
       onChange={onHandleChange}
-      className="border p-2"
+      className="border bg-white p-2"
     >
       <option value="">{title} </option>
       {selectionList.map((type) => (
