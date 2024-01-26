@@ -30,7 +30,7 @@ const TaskPage = () => {
   }
   return (
     <div className="relative">
-      {task?.owner === user?.uid && <p>{task?.name}</p>}
+      {task?.owner === user?.uid && <p className="font-bold">{task?.name}</p>}
       <button
         className="absolute right-2 top-2 cursor-pointer rounded-md bg-red-600 p-0.5 text-white hover:bg-red-400"
         onClick={() => handleDeleteTask(task?.id ?? "")}
@@ -50,6 +50,9 @@ const TaskPage = () => {
           />
         </svg>
       </button>
+      <div>
+        <p className="italic">{task?.description}</p>
+      </div>
     </div>
   );
 };

@@ -14,11 +14,11 @@ interface Props {
 const SocialMedia = ({ article }: Props) => {
   return (
     <div>
-      <h2 className="mx-auto w-[50%] text-center text-2xl font-semibold ">
+      <h2 className="mx-auto w-full text-center text-2xl font-semibold ">
         Get in contact
       </h2>
 
-      <div className="social-links flex flex-wrap gap-2">
+      <div className="social-links flex w-full flex-wrap items-center justify-center gap-2">
         {!!article?.facebook && (
           <a href={article?.facebook}>
             <img src={facebook} alt="facebook" />

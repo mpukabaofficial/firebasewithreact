@@ -1,22 +1,23 @@
 import { Route, Routes } from "react-router-dom";
+
 import "./App.css";
-import RegisterPage from "./Pages/RegisterPage";
-import LoginPage from "./Pages/LoginPage";
 import AccountPage from "./Pages/AccountPage";
-import IndexPage from "./Pages/IndexPage";
-import { AuthContextProvider } from "../src/context/AuthContext";
-import Layout from "./Layout";
-import ArticlesPage from "./Pages/ArticlesPage";
-import UploadArticlesPage from "./Pages/UploadArticlesPage";
+import AuthorPage from "./Pages/AuthorPage";
 import ArticlePage from "./Pages/ArticlePage";
-import TeamPage from "./Pages/TeamPage";
+import AnalyticsPage from "./Pages/IndexPages/AnalyticsPage";
+import ArticlesPage from "./Pages/ArticlesPage";
+import { AuthContextProvider } from "../src/context/AuthContext";
+import FeatureTest from "./Pages/FeatureTest";
+import IndexPage from "./Pages/IndexPage";
+import LoginPage from "./Pages/LoginPage";
+import Layout from "./Layout";
 import OverviewPage from "./Pages/IndexPages/OverviewPage";
 import ProjectPage from "./Pages/IndexPages/ProjectPage";
+import RegisterPage from "./Pages/RegisterPage";
 import TasksPage from "./Pages/IndexPages/TasksPage";
-import AnalyticsPage from "./Pages/IndexPages/AnalyticsPage";
 import TaskPage from "./Pages/IndexPages/TaskPage";
-import AuthorPage from "./Pages/AuthorPage";
-import FeatureTest from "./Pages/FeatureTest";
+import TeamPage from "./Pages/TeamPage";
+import UploadArticlesPage from "./Pages/UploadArticlesPage";
 
 function App() {
   return (
