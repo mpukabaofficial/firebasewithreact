@@ -51,15 +51,14 @@ const TaskForm = ({ onSubmition, onClick }: Props) => {
   };
 
   // Convert Firestore Timestamp to YYYY-MM-DD format
-  const formatDateInputValue = (timestamp: Timestamp | undefined) => {
-    if (timestamp?.toDate) {
-      return timestamp.toDate().toISOString().split("T")[0];
-    }
-    return "";
-  };
+  // const formatDateInputValue = (timestamp: Timestamp | undefined) => {
+  //   if (timestamp?.toDate) {
+  //     return timestamp.toDate().toISOString().split("T")[0];
+  //   }
+  //   return "";
+  // };
 
-  const dateInputValue = formatDateInputValue(task.dueDate);
-  console.log("Date input value:", dateInputValue); // Debugging log
+  // const dateInputValue = formatDateInputValue(task.dueDate);
 
   return (
     <form className="mx-auto mt-10 max-w-md" onSubmit={handleSubmit}>
@@ -104,7 +103,7 @@ const TaskForm = ({ onSubmition, onClick }: Props) => {
           value={date}
           name="dueDate"
           onChange={(e) => setDate(e.target.value)}
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          className="block h-10 min-w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           required
         />
       </div>
