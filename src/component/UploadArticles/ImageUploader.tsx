@@ -27,8 +27,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setUrl }) => {
   };
 
   return (
-    <div>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+    <div className="w-full">
+      <input
+        type="file"
+        accept="image/*"
+        className="mx-auto"
+        onChange={handleImageChange}
+      />
     </div>
   );
 };

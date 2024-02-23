@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import AddComponentButtons from "./AddComponentButtons";
 import PreviewArticle from "./PreviewArticle";
 import ImageUploader from "./ImageUploader";
-import { v4 as uuidv4 } from "uuid"; // Ensure you have 'uuid' installed
+import { v4 as uuidv4 } from "uuid";
 
 const ArticleTextArea = () => {
   const [article, setArticle] = useState<
@@ -34,9 +34,11 @@ const ArticleTextArea = () => {
     setArticle(newArticle);
   }, []);
 
+  console.log(article);
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
-      <div>
+      <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
         {article.map((component) => {
           const commonProps = {
             key: component.id,
@@ -46,7 +48,7 @@ const ArticleTextArea = () => {
           };
 
           return (
-            <div key={component.id} className="flex items-center">
+            <div key={component.id} className="flex w-full items-center">
               {component.type === "paragraph" && <textarea {...commonProps} />}
               {component.type === "subheading" && (
                 <input type="text" {...commonProps} />
@@ -61,9 +63,22 @@ const ArticleTextArea = () => {
               )}
               <button
                 onClick={() => handleRemoveComponent(component.id)}
-                className="ml-2"
+                className="ml-2 rounded-full bg-red-500 p-1 text-white transition-all duration-300 ease-in-out md:bg-white md:text-red-500 md:hover:bg-red-500 md:hover:text-white"
               >
-                Remove
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
           );

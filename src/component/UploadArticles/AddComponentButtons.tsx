@@ -13,7 +13,7 @@ const AddComponentButtons = ({
     "bg-gray-200 px-1 py-0.5 text-xs text-gray-800 transition-all duration-300 ease-in-out hover:bg-blue-300 rounded-md";
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-2 pt-4">
       <button className={className} onClick={onNewSubheading}>
         subheading
       </button>

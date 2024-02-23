@@ -37,7 +37,10 @@ const OverviewPage = () => {
   return (
     <div className="mb-8 grid h-full w-full gap-2 lg:grid-cols-2">
       {sections.map((section) => (
-        <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow ">
+        <div
+          key={section.title}
+          className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow "
+        >
           <a href="#">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
               {section.title}
