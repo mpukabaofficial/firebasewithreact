@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-import { useUserAuth } from "../context/AuthContext";
-import { addUser, getUsers } from "../api/users";
+import { useUserAuth } from "../context/useUserAuth";
+import useUsers from "../api/users";
 import { User } from "../component/Account/User";
 import UserProfileForm from "../component/Account/UserProfileForm";
 
@@ -11,7 +11,8 @@ const AccountPage = () => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [showForm, setShowform] = useState(false);
 
-  const users: User[] = getUsers();
+  const { docsArray, addDocument } = useUsers();
+  const users = docsArray as User[];
 
   useEffect(() => {
     if (user && users.length > 0) {
@@ -26,7 +27,7 @@ const AccountPage = () => {
   }, [user, users]);
 
   const setUser = (user: User) => {
-    addUser(user);
+    addDocument(user);
   };
 
   if (!user) {

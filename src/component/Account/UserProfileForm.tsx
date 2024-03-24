@@ -24,7 +24,7 @@ const UserProfileForm = ({
   const [lastName, setLastName] = useState("");
   const [photo, setPhoto] = useState("");
   const [message, setMessage] = useState("");
-  const handleSaveProfile = (event: any) => {
+  const handleSaveProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (photo === "") {
       setMessage("Please upload a photo");
@@ -37,6 +37,7 @@ const UserProfileForm = ({
       name: [firstName, lastName].join("|"),
       id: id ?? "",
       photo: photo,
+      role: "user",
     };
     setUser(user);
     onClose();

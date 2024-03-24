@@ -1,12 +1,13 @@
-import { getUsers } from "../api/users";
+import useUser from "../api/users";
 import { User } from "../component/Account/User";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 import { Navigate } from "react-router-dom";
 
 const TeamPage = () => {
   const { user } = useUserAuth();
 
-  const users: User[] = getUsers();
+  const { docsArray } = useUser();
+  const users = docsArray as User[];
 
   if (!user) {
     return <Navigate to="/login" />;

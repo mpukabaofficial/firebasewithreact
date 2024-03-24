@@ -1,12 +1,10 @@
-import Documents from "./Documents";
-import { Tag } from "../component/Articles/Tag";
+import useDocuments from "./useDocuments";
 
-const documents = new Documents<Tag>("tags");
+const useTasks = () => {
+  const { docsArray, addDocument, deleteDocument, updateDocument } =
+    useDocuments("tasks");
 
-export function getTags(): Tag[] {
-  return documents.getDocuments();
-}
+  return { docsArray, addDocument, deleteDocument, updateDocument };
+};
 
-export const addTags = (tags: Tag) => documents.addDocument(tags);
-
-export const deleteTags = (id: string) => documents.deleteDocument(id);
+export default useTasks;

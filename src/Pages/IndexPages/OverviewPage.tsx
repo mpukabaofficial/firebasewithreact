@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
 
 const OverviewPage = () => {
   const { user } = useUserAuth();

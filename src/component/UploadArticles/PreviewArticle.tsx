@@ -15,6 +15,16 @@ const PreviewArticle = ({ article, preview, onSetPreview }: Props) => {
         </div>
         {preview &&
           article.map((component, index) => {
+            if (component.type === "title") {
+              return (
+                <h1
+                  key={index}
+                  className="text-4xl font-bold text-gray-800 md:text-5xl"
+                >
+                  {component.value}
+                </h1>
+              );
+            }
             if (component.type === "paragraph") {
               return (
                 <p
@@ -29,7 +39,7 @@ const PreviewArticle = ({ article, preview, onSetPreview }: Props) => {
               return (
                 <h2
                   key={index}
-                  className="mb-2 text-xl font-bold text-gray-800 md:text-2xl"
+                  className="mt-4 text-xl font-bold text-gray-800 md:text-2xl"
                 >
                   {component.value}
                 </h2>

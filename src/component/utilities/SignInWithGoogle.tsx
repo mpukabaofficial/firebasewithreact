@@ -1,5 +1,6 @@
 import { FaGoogle } from "react-icons/fa";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
+import { FirebaseError } from "firebase/app";
 
 interface Props {
   onSetRedirect: (redirect: boolean) => void;
@@ -13,8 +14,8 @@ const SignInWithGoogle = ({ onSetError, onSetRedirect }: Props) => {
     try {
       await signInWithGoogle();
       onSetRedirect(true);
-    } catch (err: any) {
-      onSetError(err.message);
+    } catch (err) {
+      if (err instanceof FirebaseError) onSetError(err.message);
     }
   }
   return (

@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import IndexSideBar from "../component/IndexPage/IndexSideBar";
 import { sidebar } from "../component/IndexPage/SideBarList";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 
 const IndexPage = () => {
   const { user } = useUserAuth();

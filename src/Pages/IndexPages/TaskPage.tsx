@@ -1,20 +1,20 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
 import { Task } from "../../component/IndexPage/Task";
-import { deleteTask, getTasks } from "../../api/tasks";
+import useDocuments from "../../api/useDocuments";
 import { useState } from "react";
 
 const TaskPage = () => {
   const { user } = useUserAuth();
   const [redirect, setRedirect] = useState(false);
+  const { deleteDocument, docsArray } = useDocuments<Task>("tasks");
   const path = useLocation().pathname;
-  const taskList: Task[] = getTasks();
   function findTask(): Task | undefined {
     // Using `find` to get the first matching article or undefined if not found
-    return taskList.find((task) => path.split("/").includes(String(task.id)));
+    return docsArray.find((task) => path.split("/").includes(String(task.id)));
   }
   const handleDeleteTask = (id: string) => {
-    deleteTask(id);
+    deleteDocument(id);
     setRedirect(true);
   };
 

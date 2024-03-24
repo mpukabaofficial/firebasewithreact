@@ -5,6 +5,14 @@ export interface User {
   name: string;
   username: string;
   photo: string;
+  role:
+    | "lelo"
+    | "superAdmin"
+    | "admin"
+    | "editor"
+    | "user"
+    | "quality"
+    | "writer";
 }
 
 // contact: {

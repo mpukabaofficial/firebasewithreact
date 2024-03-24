@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import { Task } from "../IndexPage/Task";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
 
 interface Props {
   onSubmition: (newTask: Task) => Promise<void>;

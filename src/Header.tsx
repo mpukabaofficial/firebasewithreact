@@ -1,4 +1,4 @@
-import { useUserAuth } from "./context/AuthContext";
+import { useUserAuth } from "./context/useUserAuth";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -7,8 +7,8 @@ const Header = () => {
   const handleLogout = async (): Promise<void> => {
     try {
       await logout();
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
     }
   };
 
@@ -18,7 +18,7 @@ const Header = () => {
         The Spark
       </Link>
       <div>
-        {!!user ? (
+        {user ? (
           <div className="flex items-center gap-4">
             <Link
               className="rounded-full border border-black p-2 hover:bg-gray-100"

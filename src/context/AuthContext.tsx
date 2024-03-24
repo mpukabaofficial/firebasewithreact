@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signOut,
@@ -17,6 +11,8 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../api/firebase";
+import { FirebaseError } from "firebase/app";
+import Cookies from "js-cookie";
 
 type User = FirebaseUser | null;
 
@@ -59,31 +55,31 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       // Update user profile with the provided name
       await updateProfile(user, { displayName: name });
       setReady(true);
-    } catch (error: any) {
-      console.error("Error creating user:", error.message);
+    } catch (error: unknown) {
+      console.error("Error creating user:", (error as Error).message);
       throw new Error("Failed to create user");
     }
   };
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-
     try {
-      let userCredential = await signInWithPopup(auth, provider);
-
-      // For redirect sign-in, handle the result in the redirect callback using getRedirectResult
-
-      // Storing user in local storage (consider security implications)
+      const userCredential = await signInWithPopup(auth, provider);
       if (userCredential) {
-        localStorage.setItem(
-          "authenticatedUser",
-          JSON.stringify(userCredential.user)
-        );
+        // Set a secure, HTTP-only cookie with the user's UID
+        Cookies.set("user", userCredential.user.uid, {
+          expires: 1,
+          secure: true,
+          httpOnly: true,
+        });
         return userCredential.user;
       }
-    } catch (error: any) {
-      console.error("Error signing in with Google:", error.message);
-      throw new Error("Failed to sign in with Google");
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        alert("Error signing in with Google");
+        console.error("Error signing in with Google:", error.message);
+        throw new Error("Failed to sign in with Google");
+      }
     }
   };
 
@@ -100,10 +96,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       localStorage.setItem("authenticatedUser", JSON.stringify(user));
 
       return user;
-    } catch (error: any) {
-      alert("Error logging in invalid email/password");
-      console.error("Error logging in:", error.message);
-      throw new Error("Failed to log in");
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        alert("Error logging in invalid email/password");
+        console.error("Error logging in:", error.message);
+        throw new Error("Failed to log in");
+      }
     }
   };
 
@@ -124,25 +122,26 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       // Remove the authenticated user from local storage on logout
       localStorage.removeItem("authenticatedUser");
-    } catch (error: any) {
-      console.error("Error logging out:", error.message);
-      throw new Error("Failed to log out");
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        console.error("Error logging out:", error.message);
+        throw new Error("Failed to log out");
+      }
     }
   };
 
   return (
     <UserContext.Provider
-      value={{ user, createUser, logout, login, ready, signInWithGoogle }}
+      value={{
+        user,
+        createUser,
+        logout,
+        login: login as (email: string, password: string) => Promise<User>,
+        ready,
+        signInWithGoogle,
+      }}
     >
       {children}
     </UserContext.Provider>
   );
-};
-
-export const useUserAuth = () => {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error("useUserAuth must be used within an AuthContextProvider");
-  }
-  return context;
 };

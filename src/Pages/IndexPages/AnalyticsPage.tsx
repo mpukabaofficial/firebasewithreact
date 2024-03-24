@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
 
 const AnalyticsPage = () => {
   const { user } = useUserAuth();

@@ -1,10 +1,11 @@
-import { getDocuments } from "../api/articles";
 import { Article } from "../component/Articles/ArticlesStructure";
 import { useLocation } from "react-router-dom";
 import ArticlesCard from "../component/Articles/ArticlesCard";
 
+import useDocuments from "../api/useDocuments";
+
 const AuthorPage = () => {
-  const docsArray: Article[] = getDocuments();
+  const { docsArray } = useDocuments<Article>("articles");
   const location = useLocation().pathname.split("/");
 
   const findArticles = () => {

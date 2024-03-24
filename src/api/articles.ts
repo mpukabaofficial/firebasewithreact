@@ -1,13 +1,10 @@
-import { Article } from "../component/Articles/ArticlesStructure";
-import Documents from "./Documents";
+import useDocuments from "./useDocuments";
 
-const documents = new Documents<Article>("articles");
+const useArticles = () => {
+  const { docsArray, addDocument, deleteDocument, updateDocument } =
+    useDocuments("articles");
 
-export function getDocuments(): Article[] {
-  return documents.getDocuments();
-}
+  return { docsArray, addDocument, deleteDocument, updateDocument };
+};
 
-export const addArticle = (articles: Article) =>
-  documents.addDocument(articles);
-
-export const deleteDocuments = (id: string) => documents.deleteDocument(id);
+export default useArticles;

@@ -1,15 +1,10 @@
-import { User } from "../component/Account/User";
-import Documents from "./Documents";
+import useDocuments from "./useDocuments";
 
-const documents = new Documents<User>("users");
+const useUsers = () => {
+  const { docsArray, addDocument, deleteDocument, updateDocument } =
+    useDocuments("users");
 
-export function getUsers(): User[] {
-  return documents.getDocuments();
-}
+  return { docsArray, addDocument, deleteDocument, updateDocument };
+};
 
-export const addUser = (users: User) => documents.addDocument(users);
-
-export const deleteUser = (id: string) => documents.deleteDocument(id);
-
-export const updateUser = (id: string, data: User) =>
-  documents.updateDocument(id, data);
+export default useUsers;

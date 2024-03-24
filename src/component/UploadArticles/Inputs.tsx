@@ -19,7 +19,7 @@ const Inputs = ({ article, ommited, onHandleChange }: Props) => {
             key={key}
             type="text"
             name={key}
-            value={(article as any)[key]}
+            value={article[key as keyof Article] as string}
             onChange={onHandleChange}
             placeholder={
               key.charAt(0).toUpperCase() +

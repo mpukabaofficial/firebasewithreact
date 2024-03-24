@@ -3,7 +3,7 @@ import Header from "./Header";
 import SideBar from "./component/IndexPage/SideBar";
 import { sidebar } from "./component/IndexPage/SideBarList";
 import Footer from "./Footer";
-import { useUserAuth } from "./context/AuthContext";
+import { useUserAuth } from "./context/useUserAuth";
 import Loading from "./component/utilities/Loading";
 
 const Layout = () => {

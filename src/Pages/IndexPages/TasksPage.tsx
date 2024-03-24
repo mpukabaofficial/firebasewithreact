@@ -2,21 +2,22 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 import TaskForm from "../../component/TaskPage/TaskForm";
-import { addTask, getTasks } from "../../api/tasks";
+import useDocuments from "../../api/useDocuments";
 import { Task } from "../../component/IndexPage/Task";
-import { useUserAuth } from "../../context/AuthContext";
+import { useUserAuth } from "../../context/useUserAuth";
 import { formatDateString } from "../../component/utilities/DateFormatting";
 
 const TasksPage = () => {
   const { user } = useUserAuth();
   const [formStatus, setFormStatus] = useState(false);
+  const { addDocument, docsArray } = useDocuments<Task>("tasks");
 
   const handleFormData = async (newTask: Task) => {
-    await addTask(newTask);
+    await addDocument(newTask);
     setFormStatus(false);
   };
 
-  const taskList: Task[] = getTasks();
+  const taskList: Task[] = [...docsArray];
 
   if (!user) {
     return <Navigate to={"/login"} />;

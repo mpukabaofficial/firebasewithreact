@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 import SignInWithGoogle from "../component/utilities/SignInWithGoogle";
 
 const RegisterPage = () => {
@@ -21,7 +21,8 @@ const RegisterPage = () => {
     try {
       await createUser(name, email, password);
       setRedirect(true);
-    } catch (err: any) {
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
       alert(error); // Corrected from 'error' to 'err'
     }
   }

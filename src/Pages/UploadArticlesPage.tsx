@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, ChangeEvent, useEffect } from "react";
 
 // personal imports
-import { addArticle } from "../api/articles";
+import useDocuments from "../api/useDocuments";
 import AddTag from "../component/UploadArticles/AddTag";
 import { Article } from "../component/Articles/ArticlesStructure";
 import Checkboxes from "../component/UploadArticles/Checkboxes";
@@ -12,13 +12,14 @@ import { initialArticle } from "../component/Articles/ArticlesStructure";
 import Inputs from "../component/UploadArticles/Inputs";
 import Select from "../component/UploadArticles/Select";
 import tagsList from "../../tags.json";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 
 // beginning of Page
 const UploadArticlesPage = () => {
   // functional component
   const { user } = useUserAuth();
   const navigate = useNavigate();
+  const { addDocument } = useDocuments<Article>("articles");
 
   // useState
   const [article, setArticle] = useState<Article>({
@@ -61,7 +62,7 @@ const UploadArticlesPage = () => {
     };
 
     try {
-      await addArticle({
+      await addDocument({
         ...updatedArticle,
         categories: categoriesArray.map((category) => String(category)),
       });

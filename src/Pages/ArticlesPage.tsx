@@ -1,15 +1,15 @@
 import { Article } from "../component/Articles/ArticlesStructure";
-import { getDocuments } from "../api/articles";
+import useDocuments from "../api/useDocuments";
 import ArticlesCard from "../component/Articles/ArticlesCard";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 import { Navigate } from "react-router-dom";
 
 const ArticlesPage = () => {
   const { user } = useUserAuth();
+  const { docsArray } = useDocuments<Article>("articles");
   if (!user) {
     return <Navigate to={"/login"} />;
   }
-  const docsArray: Article[] = getDocuments();
   return <ArticlesCard articles={docsArray} url={"/article"} />;
 };
 

@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 import { FormEvent, useState } from "react";
 import SignInWithGoogle from "../component/utilities/SignInWithGoogle";
 
@@ -9,15 +9,15 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [redirect, setRedirect] = useState(false);
-  if (!!user) return <Navigate to={"/"} />;
+  if (user) return <Navigate to={"/"} />;
   async function handleLogin(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     setError("");
     try {
       await login(email, password);
       setRedirect(true);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
       alert(error);
     }
   }

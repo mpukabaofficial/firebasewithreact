@@ -1,66 +1,67 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 // personal imports
 import Tags from "../component/Articles/Tags";
-import { useUserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/useUserAuth";
 import Engagement from "../component/Articles/Engagement";
 import SocialMedia from "../component/Articles/SocialMedia";
-import { Article } from "../component/Articles/ArticlesStructure";
-import { deleteDocuments, getDocuments } from "../api/articles";
 import { toDateTime } from "../component/utilities/DateFormatting";
 import Loading from "../component/utilities/Loading";
 import { User } from "../component/Account/User";
-import { getUsers } from "../api/users";
+import useUpdatePageName from "../component/UpdatePageName";
+import useArticles from "../api/articles";
+import { Article } from "../component/Articles/ArticlesStructure";
+import useUsers from "../api/users";
 
 const ArticlePage = () => {
   const { user } = useUserAuth();
-  const docsArray: Article[] = getDocuments();
-  const path = useLocation().pathname;
-
+  const location = useLocation();
+  const { docsArray, deleteDocument } = useArticles();
   const [deleted, setDeleted] = useState(false);
+  const [loading, setLoading] = useState(true); // New state for loading
+  const [error, setError] = useState(""); // New state for error handling
 
-  function findArticle(): Article | undefined {
-    const pathSegments = path.split("/");
+  useEffect(() => {
+    if (docsArray.length > 0 || error) setLoading(false);
+  }, [docsArray, error]);
+
+  const article = useMemo(() => {
+    const pathSegments = location.pathname.split("/");
     return docsArray.find((article) =>
       pathSegments.includes(String(article.id))
     );
-  }
+  }, [location.pathname, docsArray]);
 
-  // Get the article using the findArticle function
-  const article: Article | undefined = findArticle();
+  useUpdatePageName(article?.title ?? "Article");
 
-  const users: User[] = getUsers();
+  const { docsArray: usersArray } = useUsers();
+  const users = usersArray as User[];
 
-  // find the user
-  function findUser(): User | undefined {
-    if (article) {
-      return users.find((user) => user.id === article.authorId);
-    }
-  }
+  const findUser = useMemo(() => {
+    return article
+      ? users.find((user) => user.id === article.authorId)
+      : undefined;
+  }, [article, users]);
 
-  // delete article
   const handleDeleteArticle = async () => {
     try {
-      await deleteDocuments(article?.id ?? "");
-      setDeleted(true);
+      if (article?.id) {
+        await deleteDocument(article.id);
+        setDeleted(true);
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setError("Failed to delete article."); // Set error state
     }
   };
 
-  if (deleted) {
-    return <Navigate to="/articles" />;
-  }
+  if (loading) return <Loading />; // Show loading indicator while loading
+  if (error) return <div>Error: {error}</div>; // Show error message if error occurs
+  if (deleted) return <Navigate to="/articles" />;
+  if (!user) return <Navigate to={"/login"} />;
+  if (!article) return <div>Article not found.</div>; // Updated to show a more specific message
 
-  if (!article) {
-    // Render some fallback UI or a loading indicator
-    return <Loading />; // Example fallback UI
-  }
-
-  if (!user) {
-    return <Navigate to={"/login"} />;
-  }
   // Make sure the article and articleBody exist before trying to map over it
   return (
     <article className="mx-auto max-w-[1024px]">
@@ -111,10 +112,10 @@ const ArticlePage = () => {
           {/* By: {article?.author} */}
           <div className="flex items-center gap-4">
             <div className="h-10 w-10 overflow-hidden rounded-full">
-              {findUser()?.photo ? (
+              {findUser?.photo ? (
                 <img
                   className="h-full w-full rounded-full object-cover"
-                  src={findUser()?.photo}
+                  src={findUser?.photo}
                   alt=""
                 />
               ) : (
@@ -134,7 +135,7 @@ const ArticlePage = () => {
       </div>
 
       <div className="mx-auto max-w-[700px]">
-        {article?.articleBody.map((para, index) => (
+        {article?.articleBody.map((para: string, index: number) => (
           // Use index as key for lack of a better option, but it's better to use unique IDs when possible
           <p
             key={index}
@@ -149,14 +150,16 @@ const ArticlePage = () => {
         />
       </div>
       <div className="flex w-full flex-col items-center gap-4 text-gray-500">
-        <SocialMedia article={article} />
+        <SocialMedia article={article as Article} />
         <div>
-          {article.authorId === user.uid && <button
-            className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
-            onClick={handleDeleteArticle}
-          >
-            Delete
-          </button>}
+          {article.authorId === user.uid && (
+            <button
+              className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
+              onClick={handleDeleteArticle}
+            >
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </article>
