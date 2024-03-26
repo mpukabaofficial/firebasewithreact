@@ -5,10 +5,12 @@ import { sidebar } from "./component/IndexPage/SideBarList";
 import Footer from "./Footer";
 import { useUserAuth } from "./context/useUserAuth";
 import Loading from "./component/utilities/Loading";
+import useUpdatePageName from "./component/UpdatePageName";
 
 const Layout = () => {
   const { ready } = useUserAuth();
   const location = useLocation().pathname.split("/");
+  useUpdatePageName(location[1]);
   const sidebarList: sidebar[] = [
     {
       name: "",

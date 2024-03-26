@@ -13,8 +13,6 @@ const TeamPage = () => {
     return <Navigate to="/login" />;
   }
 
-  console.log(users);
-
   return (
     <ul role="list" className="mx-auto max-w-[1024px] divide-y divide-gray-100">
       {users.map((person) => (

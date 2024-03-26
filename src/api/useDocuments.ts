@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   addDoc,
   collection,
   deleteDoc,
   onSnapshot,
-  CollectionReference,
   DocumentData,
   QuerySnapshot,
   doc,
@@ -12,22 +11,23 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-// A hook to manage and return Firestore documents
 function useDocuments<T extends DocumentData>(collectionName: string) {
   const [docsArray, setDocsArray] = useState<T[]>([]);
-  const collectionRef: CollectionReference<DocumentData> = collection(
-    db,
-    collectionName
+  const collectionRef = useMemo(
+    () => collection(db, collectionName),
+    [collectionName]
   );
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collectionRef,
       (snapshot: QuerySnapshot<DocumentData>) => {
+        console.log("Snapshot docs:", snapshot.docs); // Add this line to check the raw snapshot
         const docs = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...(doc.data() as T),
         }));
+        console.log("Mapped docs:", docs); // Add this line to check the mapped documents
         setDocsArray(docs);
       },
       (error) => {
@@ -35,7 +35,6 @@ function useDocuments<T extends DocumentData>(collectionName: string) {
       }
     );
 
-    // Cleanup function to unsubscribe from the snapshot listener on component unmount
     return unsubscribe;
   }, [collectionName, collectionRef]);
 
@@ -65,7 +64,6 @@ function useDocuments<T extends DocumentData>(collectionName: string) {
     }
   };
 
-  // Return document array and CRUD functions
   return { docsArray, addDocument, deleteDocument, updateDocument };
 }
 

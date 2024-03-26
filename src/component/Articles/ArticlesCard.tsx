@@ -32,10 +32,7 @@ const ArticlesCard = ({ articles, url }: Props) => {
                 <p className="mb-3 font-normal text-blue-400 ">
                   {article.author}
                 </p>
-                <Tags
-                  tags={[...article.categories, article.type, article.edition]}
-                  total={3}
-                />
+                <Tags tags={[...article.tags]} total={3} />
               </div>
             </Link>
           ))}

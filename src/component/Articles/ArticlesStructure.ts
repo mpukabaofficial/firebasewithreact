@@ -6,7 +6,6 @@ export interface Article {
   author: string | null | undefined;
   authorEmail: string | null | undefined;
   authorId: string | null | undefined;
-  categories: string[];
   facebook: string;
   instagram: string;
   whatsApp: string;
@@ -15,22 +14,19 @@ export interface Article {
   website: string;
   picture: string;
   pictureDesc: string;
-  edition: string;
-  type: string;
+  tags: string[];
   articleBody: string[];
   date: Timestamp;
-  likes: number;
-  comments: number;
-  views: number;
+  likes: string[];
+  views: string[];
   shares: number;
 }
 
 export const initialArticle: Article = {
-  title: "",
   author: "",
   authorEmail: "",
   authorId: "",
-  categories: [],
+  title: "",
   facebook: "",
   instagram: "",
   whatsApp: "",
@@ -39,12 +35,10 @@ export const initialArticle: Article = {
   website: "",
   picture: "",
   pictureDesc: "",
-  edition: "",
-  type: "",
   articleBody: [],
   date: Timestamp.now(),
-  likes: 0,
-  comments: 0,
-  views: 0,
+  likes: [],
+  views: [],
   shares: 0,
+  tags: [],
 };

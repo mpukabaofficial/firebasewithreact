@@ -2,8 +2,11 @@ import { useEffect } from "react";
 
 const useUpdatePageName = (pageName: string) => {
   useEffect(() => {
-    document.title = "The Spark" + (pageName.trim() ? " | " : "") + pageName;
-  }, []);
+    const formattedPageName = pageName.trim()
+      ? " | " + pageName.charAt(0).toUpperCase() + pageName.slice(1)
+      : "";
+    document.title = "The Spark" + formattedPageName;
+  }, [pageName]);
 };
 
 export default useUpdatePageName;

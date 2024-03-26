@@ -2,17 +2,15 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 
 // personal imports
-import Tags from "../component/Articles/Tags";
-import { useUserAuth } from "../context/useUserAuth";
-import Engagement from "../component/Articles/Engagement";
-import SocialMedia from "../component/Articles/SocialMedia";
-import { toDateTime } from "../component/utilities/DateFormatting";
-import Loading from "../component/utilities/Loading";
-import { User } from "../component/Account/User";
-import useUpdatePageName from "../component/UpdatePageName";
-import useArticles from "../api/articles";
 import { Article } from "../component/Articles/ArticlesStructure";
+import SocialMedia from "../component/Articles/SocialMedia";
+import { User } from "../component/Account/User";
+import useArticles from "../api/articles";
+import useUpdatePageName from "../component/UpdatePageName";
 import useUsers from "../api/users";
+import { useUserAuth } from "../context/useUserAuth";
+import Loading from "../component/utilities/Loading";
+import { toDateTime } from "../component/utilities/DateFormatting";
 
 const ArticlePage = () => {
   const { user } = useUserAuth();
@@ -32,8 +30,6 @@ const ArticlePage = () => {
       pathSegments.includes(String(article.id))
     );
   }, [location.pathname, docsArray]);
-
-  useUpdatePageName(article?.title ?? "Article");
 
   const { docsArray: usersArray } = useUsers();
   const users = usersArray as User[];
@@ -55,6 +51,8 @@ const ArticlePage = () => {
       setError("Failed to delete article."); // Set error state
     }
   };
+
+  useUpdatePageName(article?.title ?? "Article");
 
   if (loading) return <Loading />; // Show loading indicator while loading
   if (error) return <div>Error: {error}</div>; // Show error message if error occurs
@@ -97,13 +95,6 @@ const ArticlePage = () => {
         />
       </div>
 
-      <Engagement
-        views={article?.views}
-        likes={article.likes}
-        comments={article.comments}
-        shares={article.shares}
-      />
-
       <div className="flex flex-col py-8">
         <Link
           className="mb-1 mt-4 text-blue-600 hover:underline"
@@ -135,30 +126,31 @@ const ArticlePage = () => {
       </div>
 
       <div className="mx-auto max-w-[700px]">
-        {article?.articleBody.map((para: string, index: number) => (
-          // Use index as key for lack of a better option, but it's better to use unique IDs when possible
-          <p
-            key={index}
-            className={index === 0 ? "py-4 text-lg font-bold" : "py-4 text-lg"}
-          >
-            {para}
-          </p>
-        ))}
-        <Tags
-          tags={[...article.categories, article.type, article.edition] ?? []}
-          total={article?.categories?.length + 2 ?? 0}
-        />
+        <div>
+          {article.articleBody
+            .split("\n\n")
+            .map((paragraph: string, index: number) => (
+              <p
+                key={index}
+                className={`mb-4 text-lg ${index === 0 && "font-bold"}`}
+              >
+                {paragraph}
+              </p>
+            ))}
+        </div>
       </div>
       <div className="flex w-full flex-col items-center gap-4 text-gray-500">
         <SocialMedia article={article as Article} />
         <div>
           {article.authorId === user.uid && (
-            <button
-              className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
-              onClick={handleDeleteArticle}
-            >
-              Delete
-            </button>
+            <div className="flex gap-4">
+              <button
+                className="w-full rounded-xl bg-red-500 px-4 py-2 text-white"
+                onClick={handleDeleteArticle}
+              >
+                Delete
+              </button>
+            </div>
           )}
         </div>
       </div>

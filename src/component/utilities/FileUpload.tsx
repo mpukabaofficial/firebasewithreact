@@ -29,7 +29,7 @@ const FileUpload = ({ setUrl, fileLocation = "other" }: Props) => {
 
       uploadTask.on(
         "state_changed",
-        (_) => {
+        () => {
           // Optional: Update progress state here if you want to show a progress bar
         },
         (error) => {
@@ -45,7 +45,7 @@ const FileUpload = ({ setUrl, fileLocation = "other" }: Props) => {
         }
       );
     }
-  }, [file, setUrl]);
+  }, [file, fileLocation, setUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

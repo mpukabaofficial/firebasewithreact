@@ -38,6 +38,7 @@ function App() {
             <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/article/:id" element={<ArticlePage />} />
             <Route path="/upload" element={<UploadArticlesPage />} />
+            <Route path="/upload/:id" element={<UploadArticlesPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/author/:id" element={<AuthorPage />} />
             <Route path="/feature" element={<FeatureTest />} />
